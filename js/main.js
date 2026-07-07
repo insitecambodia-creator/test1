@@ -1,4 +1,7 @@
 (function () {
+  // n8n Webhook URL — replace with your production webhook URL (see setup notes).
+  var QUOTE_FORM_WEBHOOK_URL = 'https://REPLACE-ME.app.n8n.cloud/webhook/quote-request';
+
   // Footer year
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -68,19 +71,82 @@
     });
   });
 
-  // Quote form submit (client-side only, no backend wired up)
+  // Quote form submit — posts to an n8n Webhook
   var form = document.getElementById('quote-form');
   var status = document.getElementById('form-status');
   if (form && status) {
+    // Honeypot field: invisible to people, tempting to bots. Injected via JS
+    // so it doesn't need to be hand-added to every page's form markup.
+    var honeypot = document.createElement('input');
+    honeypot.type = 'text';
+    honeypot.name = 'company_website';
+    honeypot.autocomplete = 'off';
+    honeypot.tabIndex = -1;
+    honeypot.setAttribute('aria-hidden', 'true');
+    honeypot.style.cssText = 'position:absolute; left:-9999px; width:1px; height:1px; opacity:0;';
+    form.appendChild(honeypot);
+
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var submitLabel = submitBtn ? submitBtn.innerHTML : '';
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!form.checkValidity()) {
         form.reportValidity();
         return;
       }
-      status.textContent = 'Thanks! A broker will contact you within 24 hours.';
-      status.className = 'form-status success';
-      form.reset();
+
+      // Bot caught the honeypot — pretend success, submit nothing.
+      if (honeypot.value) {
+        status.textContent = 'Thanks! A broker will contact you within 24 hours.';
+        status.className = 'form-status success';
+        form.reset();
+        return;
+      }
+
+      var activeTab = document.querySelector('.quote-tab.is-active');
+
+      var payload = {
+        firstName: form.firstName.value,
+        lastName: form.lastName.value,
+        email: form.email.value,
+        phone: form.phone.value,
+        company: form.company.value,
+        industry: form.industry.value,
+        insuranceType: activeTab ? activeTab.textContent.trim() : '',
+        pageUrl: window.location.href,
+        language: document.documentElement.lang || 'en',
+        submittedAt: new Date().toISOString()
+      };
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Sending&hellip;';
+      }
+      status.textContent = '';
+      status.className = 'form-status';
+
+      fetch(QUOTE_FORM_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Request failed: ' + res.status);
+          status.textContent = 'Thanks! A broker will contact you within 24 hours.';
+          status.className = 'form-status success';
+          form.reset();
+        })
+        .catch(function () {
+          status.textContent = 'Something went wrong. Please call us or message us on Telegram instead.';
+          status.className = 'form-status error';
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = submitLabel;
+          }
+        });
     });
   }
 })();
