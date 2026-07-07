@@ -250,6 +250,19 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   font-weight: 500;
 }
 .header-phone:hover { color: var(--white); }
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px;
+  padding: 5px 11px;
+  transition: color .15s ease, border-color .15s ease;
+}
+.lang-switch:hover { color: var(--white); border-color: rgba(255,255,255,0.6); }
 
 .nav-toggle {
   display: none;
