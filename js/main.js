@@ -1,6 +1,6 @@
 (function () {
-  // n8n Webhook URL — replace with your production webhook URL (see setup notes).
-  var QUOTE_FORM_WEBHOOK_URL = 'https://REPLACE-ME.app.n8n.cloud/webhook/quote-request';
+  // n8n Webhook URL for the quote form.
+  var QUOTE_FORM_WEBHOOK_URL = 'https://n8n.srv873866.hstgr.cloud/webhook/quote-request';
 
   // Footer year
   var yearEl = document.getElementById('year');
