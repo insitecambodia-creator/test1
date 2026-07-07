@@ -715,6 +715,67 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 .footer-legal { display: flex; gap: 22px; }
 .footer-legal a:hover { color: var(--white); }
 
+/* ===================== Inner page hero & article ===================== */
+.page-hero {
+  background: linear-gradient(160deg, var(--navy-800), var(--navy-900));
+  padding: 56px 0 72px;
+}
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 24px;
+}
+.breadcrumb a { color: rgba(255,255,255,0.75); }
+.breadcrumb a:hover { color: var(--white); }
+.page-hero h1 { color: var(--white); font-size: clamp(2rem, 4vw, 2.6rem); margin-top: 8px; max-width: 26ch; }
+.page-hero .hero-lead { max-width: 62ch; }
+.page-hero .hero-ctas { margin-top: 30px; }
+
+.article-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.article-copy p {
+  color: var(--gray-600);
+  margin: 0 0 18px;
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+.article-copy .btn { margin-top: 8px; }
+
+.peril-card {
+  background: var(--cream-50);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  position: sticky;
+  top: 100px;
+}
+.peril-card h3 { margin-bottom: 18px; }
+.peril-list { display: flex; flex-direction: column; gap: 12px; }
+.peril-list li {
+  position: relative;
+  padding-left: 24px;
+  color: var(--ink-700);
+  font-weight: 500;
+  font-size: 0.94rem;
+}
+.peril-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-500);
+}
+
 /* ===================== Responsive ===================== */
 @media (max-width: 980px) {
   .hero-inner { grid-template-columns: 1fr; }
@@ -728,6 +789,8 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   .testimonial-grid { grid-template-columns: 1fr; }
   .quote-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  .article-grid { grid-template-columns: 1fr; }
+  .peril-card { position: static; }
 }
 
 @media (max-width: 760px) {
