@@ -464,6 +464,7 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   color: var(--navy-800);
   transition: gap .15s ease;
 }
+.check-list + .link-arrow { margin-top: 24px; }
 .link-arrow:hover { gap: 10px; color: var(--gold-700); }
 
 /* ===================== Coverages ===================== */
