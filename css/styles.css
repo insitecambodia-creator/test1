@@ -469,6 +469,9 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 .link-arrow:hover { gap: 10px; color: var(--gold-700); }
 
 /* ===================== Coverages ===================== */
+.coverage-group { margin-top: 48px; }
+.coverage-group + .coverage-group { margin-top: 56px; }
+.coverage-group .cov-grid { margin-top: 20px; }
 .cov-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
