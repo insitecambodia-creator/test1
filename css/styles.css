@@ -137,6 +137,11 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   color: var(--white);
 }
 .btn-outline-light:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
+.btn-outline-dark {
+  border-color: var(--border);
+  color: var(--navy-800);
+}
+.btn-outline-dark:hover { background: var(--cream-50); border-color: var(--navy-800); }
 .btn-sm { padding: 10px 20px; font-size: 0.88rem; }
 .btn-block { width: 100%; }
 
@@ -858,6 +863,67 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 .notice-box p { margin: 0; color: var(--ink-700); font-size: 0.94rem; line-height: 1.6; }
 .notice-box strong { color: var(--ink-900); }
 
+/* Plan tier cards */
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+  align-items: stretch;
+}
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+.plan-card.is-featured { border-color: var(--gold-500); box-shadow: var(--shadow-md); position: relative; }
+.plan-featured-tag {
+  position: absolute;
+  top: -13px;
+  left: 32px;
+  background: var(--gold-500);
+  color: var(--navy-900);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+.plan-card h3 { font-size: 1.2rem; }
+.plan-card-desc { color: var(--gray-600); font-size: 0.9rem; margin-top: 4px; }
+.plan-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
+  flex: 1;
+}
+.plan-features li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: var(--ink-700);
+  line-height: 1.4;
+}
+.plan-features li svg { flex-shrink: 0; margin-top: 2px; }
+.plan-features li.is-included svg { color: var(--gold-600); }
+.plan-features li.is-excluded { color: var(--gray-400); }
+.plan-features li.is-excluded svg { color: var(--gray-400); }
+.plan-best-for {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.plan-best-for strong { display: block; color: var(--ink-900); margin-bottom: 4px; }
+.plan-best-for span { color: var(--gray-600); }
+.plan-card .btn { margin-top: 22px; }
+
 /* ===================== Responsive ===================== */
 @media (max-width: 980px) {
   .hero-inner { grid-template-columns: 1fr; }
@@ -873,6 +939,7 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .article-grid { grid-template-columns: 1fr; }
   .peril-card { position: static; }
+  .plan-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 760px) {
