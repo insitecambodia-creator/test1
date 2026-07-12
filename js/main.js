@@ -58,19 +58,7 @@
     if (e.key === 'Escape') closeDropdowns();
   });
 
-  // Quote form tabs — switching tabs also shows/hides fields that only
-  // apply to that insurance type (e.g. Date of Birth for Group Health).
-  function updateConditionalFields(tabKey) {
-    document.querySelectorAll('.form-row-conditional').forEach(function (row) {
-      var matches = row.dataset.conditional === tabKey;
-      row.classList.toggle('is-visible', matches);
-      row.querySelectorAll('input, select').forEach(function (field) {
-        field.required = matches;
-        if (!matches) field.value = '';
-      });
-    });
-  }
-
+  // Quote form tabs (visual only)
   var tabs = document.querySelectorAll('.quote-tab');
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
@@ -80,11 +68,20 @@
       });
       tab.classList.add('is-active');
       tab.setAttribute('aria-selected', 'true');
-      updateConditionalFields(tab.dataset.tab);
     });
   });
-  var initialTab = document.querySelector('.quote-tab.is-active');
-  if (initialTab) updateConditionalFields(initialTab.dataset.tab);
+
+  // Live phone formatting: strips anything but digits and a leading "+",
+  // then groups digits with spaces as the person types (e.g. +855 12 345 678).
+  var phoneInput = document.getElementById('phone');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function () {
+      var hasPlus = phoneInput.value.trim().charAt(0) === '+';
+      var digits = phoneInput.value.replace(/\D/g, '');
+      var groups = digits.match(/.{1,3}/g) || [];
+      phoneInput.value = (hasPlus ? '+' : '') + groups.join(' ');
+    });
+  }
 
   // Quote form submit — posts to an n8n Webhook
   var form = document.getElementById('quote-form');
@@ -126,9 +123,7 @@
         lastName: form.lastName.value,
         email: form.email.value,
         phone: form.phone.value,
-        company: form.company.value,
-        industry: form.industry.value,
-        dob: form.dob ? form.dob.value : '',
+        message: form.message.value,
         insuranceType: activeTab ? activeTab.textContent.trim() : '',
         pageUrl: window.location.href,
         language: document.documentElement.lang || 'en',

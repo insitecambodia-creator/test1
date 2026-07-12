@@ -252,11 +252,10 @@
         <p class="quote-form-sub">Tell us a bit about your needs and a broker will call you back within 24 hours.</p>
 
         <div class="quote-tabs" role="tablist" aria-label="Insurance type">
-          <button type="button" class="quote-tab is-active" role="tab" aria-selected="true" data-tab="general">General Insurance</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="health">Group Health</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="vehicle">Vehicle</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="property">Property</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="other">Other</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false">Health Insurance</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false">Vehicle</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false">Property</button>
+          <button type="button" class="quote-tab is-active" role="tab" aria-selected="true">Other</button>
         </div>
 
         <form id="quote-form" novalidate>
@@ -280,30 +279,9 @@
               <input id="phone" name="phone" type="tel" required autocomplete="tel">
             </div>
           </div>
-          <div class="form-row form-row-conditional" data-conditional="health">
-            <div class="form-field">
-              <label for="dob">Date of Birth *</label>
-              <input id="dob" name="dob" type="date">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-field">
-              <label for="company">Company Name</label>
-              <input id="company" name="company" type="text" autocomplete="organization">
-            </div>
-            <div class="form-field">
-              <label for="industry">Industry</label>
-              <select id="industry" name="industry">
-                <option value="">Select an industry</option>
-                <option>Manufacturing</option>
-                <option>Construction</option>
-                <option>Hospitality &amp; Tourism</option>
-                <option>NGO / Non-profit</option>
-                <option>Retail &amp; Trade</option>
-                <option>Individual / Family</option>
-                <option>Other</option>
-              </select>
-            </div>
+          <div class="form-field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4"></textarea>
           </div>
           <button type="submit" class="btn btn-gold btn-block">Request my free quote <span aria-hidden="true">→</span></button>
           <p class="form-note">
