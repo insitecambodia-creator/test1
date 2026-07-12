@@ -277,11 +277,11 @@
         <p class="quote-form-sub">Parlez-nous un peu de votre équipe, un courtier vous rappellera sous 24 heures.</p>
 
         <div class="quote-tabs" role="tablist" aria-label="Insurance type">
-          <button type="button" class="quote-tab" role="tab" aria-selected="false">Assurance Générale</button>
-          <button type="button" class="quote-tab is-active" role="tab" aria-selected="true">Santé Collective</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false">Véhicule</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false">Habitation</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false">Autre</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="general">Assurance Générale</button>
+          <button type="button" class="quote-tab is-active" role="tab" aria-selected="true" data-tab="health">Santé Collective</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="vehicle">Véhicule</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="property">Habitation</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="other">Autre</button>
         </div>
 
         <form id="quote-form" novalidate>
@@ -303,6 +303,12 @@
             <div class="form-field">
               <label for="phone">Téléphone / WhatsApp *</label>
               <input id="phone" name="phone" type="tel" required autocomplete="tel">
+            </div>
+          </div>
+          <div class="form-row form-row-conditional" data-conditional="health">
+            <div class="form-field">
+              <label for="dob">Date de naissance *</label>
+              <input id="dob" name="dob" type="date">
             </div>
           </div>
           <div class="form-row">

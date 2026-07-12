@@ -224,11 +224,11 @@
         <p class="quote-form-sub">Tell us a bit about your business and a broker will call you back within 24 hours.</p>
 
         <div class="quote-tabs" role="tablist" aria-label="Insurance type">
-          <button type="button" class="quote-tab is-active" role="tab" aria-selected="true">General Insurance</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false">Group Health</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false">Vehicle</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false">Property</button>
-          <button type="button" class="quote-tab" role="tab" aria-selected="false">Other</button>
+          <button type="button" class="quote-tab is-active" role="tab" aria-selected="true" data-tab="general">General Insurance</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="health">Group Health</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="vehicle">Vehicle</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="property">Property</button>
+          <button type="button" class="quote-tab" role="tab" aria-selected="false" data-tab="other">Other</button>
         </div>
 
         <form id="quote-form" novalidate>
@@ -250,6 +250,12 @@
             <div class="form-field">
               <label for="phone">Phone / WhatsApp *</label>
               <input id="phone" name="phone" type="tel" required autocomplete="tel">
+            </div>
+          </div>
+          <div class="form-row form-row-conditional" data-conditional="health">
+            <div class="form-field">
+              <label for="dob">Date of Birth *</label>
+              <input id="dob" name="dob" type="date">
             </div>
           </div>
           <div class="form-row">
