@@ -1,6 +1,6 @@
 (function () {
-  // Formspree endpoint for the quote form.
-  var QUOTE_FORM_WEBHOOK_URL = 'https://formspree.io/f/mbdnrlgj';
+  // n8n Webhook URL for the quote form.
+  var QUOTE_FORM_WEBHOOK_URL = 'https://n8n.srv873866.hstgr.cloud/webhook/quote-request';
 
   // Footer year
   var yearEl = document.getElementById('year');
@@ -77,10 +77,9 @@
   if (form && status) {
     // Honeypot field: invisible to people, tempting to bots. Injected via JS
     // so it doesn't need to be hand-added to every page's form markup.
-    // Named "_gotcha" so Formspree also recognizes it as a honeypot on its end.
     var honeypot = document.createElement('input');
     honeypot.type = 'text';
-    honeypot.name = '_gotcha';
+    honeypot.name = 'company_website';
     honeypot.autocomplete = 'off';
     honeypot.tabIndex = -1;
     honeypot.setAttribute('aria-hidden', 'true');
@@ -129,10 +128,7 @@
 
       fetch(QUOTE_FORM_WEBHOOK_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
         .then(function (res) {
