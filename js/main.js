@@ -71,15 +71,21 @@
     });
   });
 
-  // Live phone formatting: strips anything but digits and a leading "+",
-  // then groups digits with spaces as the person types (e.g. +855 12 345 678).
+  // Live phone formatting: always renders as an international number
+  // (e.g. +855 12 345 678). If the person doesn't type their own "+",
+  // the number is treated as local Cambodian and prefixed with +855
+  // (dropping a leading 0, since local mobiles are written that way).
   var phoneInput = document.getElementById('phone');
   if (phoneInput) {
     phoneInput.addEventListener('input', function () {
       var hasPlus = phoneInput.value.trim().charAt(0) === '+';
       var digits = phoneInput.value.replace(/\D/g, '');
+      if (!hasPlus) {
+        if (digits.charAt(0) === '0') digits = digits.slice(1);
+        if (digits) digits = '855' + digits;
+      }
       var groups = digits.match(/.{1,3}/g) || [];
-      phoneInput.value = (hasPlus ? '+' : '') + groups.join(' ');
+      phoneInput.value = digits ? '+' + groups.join(' ') : (hasPlus ? '+' : '');
     });
   }
 
