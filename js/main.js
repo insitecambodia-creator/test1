@@ -71,22 +71,38 @@
     });
   });
 
-  // Live phone formatting: always renders as an international number
-  // (e.g. +855 12 345 678). If the person doesn't type their own "+",
-  // the number is treated as local Cambodian and prefixed with +855
-  // (dropping a leading 0, since local mobiles are written that way).
+  // Live phone formatting: strips anything but digits and a leading "+",
+  // then groups digits with spaces as the person types (e.g. +855 12 345 678).
+  // The +855 default for numbers typed without a "+" is applied once at
+  // submit time (see formatPhoneForSubmit below) rather than live on every
+  // keystroke, since re-deriving the country code on each keystroke breaks
+  // as soon as the field already starts with "+" (which it does after the
+  // very first character) — edits and corrections would then either wipe
+  // the number or duplicate the "855" prefix.
   var phoneInput = document.getElementById('phone');
   if (phoneInput) {
     phoneInput.addEventListener('input', function () {
       var hasPlus = phoneInput.value.trim().charAt(0) === '+';
       var digits = phoneInput.value.replace(/\D/g, '');
-      if (!hasPlus) {
-        if (digits.charAt(0) === '0') digits = digits.slice(1);
-        if (digits) digits = '855' + digits;
-      }
       var groups = digits.match(/.{1,3}/g) || [];
-      phoneInput.value = digits ? '+' + groups.join(' ') : (hasPlus ? '+' : '');
+      phoneInput.value = (hasPlus ? '+' : '') + groups.join(' ');
     });
+  }
+
+  // Applied once at submit time: guarantees the phone number that reaches
+  // n8n/email/Sheets always has an international "+countrycode" prefix.
+  // Numbers without an explicit "+" are treated as local Cambodian mobiles
+  // (leading 0 dropped) and prefixed with +855; an explicit "+countrycode"
+  // typed by the person (e.g. an expat's +33...) is preserved as-is.
+  function formatPhoneForSubmit(raw) {
+    var hasPlus = raw.trim().charAt(0) === '+';
+    var digits = raw.replace(/\D/g, '');
+    if (!hasPlus) {
+      if (digits.length > 1 && digits.charAt(0) === '0') digits = digits.slice(1);
+      digits = '855' + digits;
+    }
+    var groups = digits.match(/.{1,3}/g) || [];
+    return digits ? '+' + groups.join(' ') : '';
   }
 
   // Quote form submit — posts to an n8n Webhook
@@ -128,7 +144,7 @@
         firstName: form.firstName.value,
         lastName: form.lastName.value,
         email: form.email.value,
-        phone: form.phone.value,
+        phone: formatPhoneForSubmit(form.phone.value),
         message: form.message.value,
         insuranceType: activeTab ? activeTab.textContent.trim() : '',
         pageUrl: window.location.href,
