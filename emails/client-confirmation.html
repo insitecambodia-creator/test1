@@ -37,7 +37,7 @@
 <body style="margin:0; padding:0; background-color:#f7f3ea;">
 <!-- Preheader (hidden preview text) -->
 <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#f7f3ea;">
-  Thank you for reaching out to AG Insurance Broker — we've received your {{ $json.body.insuranceType }} request and a broker will contact you shortly.
+  Thank you for reaching out to AG Insurance Broker — we've received your {{ $('Webhook1').item.json.body.insuranceType }} request and a broker will contact you shortly.
 </div>
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f7f3ea;">
@@ -69,7 +69,7 @@
               &mdash; Request received
             </p>
             <h1 class="h1-mobile" style="margin:0; font-family: 'Manrope', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:26px; line-height:1.25; font-weight:800; color:#16283a;">
-              Thank you, {{ $json.body.firstName }}.
+              Thank you, {{ $('Webhook1').item.json.body.firstName }}.
             </h1>
           </td>
         </tr>
@@ -78,7 +78,7 @@
         <tr>
           <td style="padding: 16px 32px 0;" class="px-24">
             <p style="margin:0 0 16px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:15px; line-height:1.6; color:#33454f;">
-              We've received your <strong>{{ $json.body.insuranceType }}</strong> insurance request and one of our brokers will be in touch shortly to walk you through your options.
+              We've received your <strong>{{ $('Webhook1').item.json.body.insuranceType }}</strong> insurance request and one of our brokers will be in touch shortly to walk you through your options.
             </p>
           </td>
         </tr>
@@ -92,19 +92,19 @@
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                       <td style="padding-bottom:10px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#5c6b74; width:120px; vertical-align:top;">Insurance type</td>
-                      <td style="padding-bottom:10px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#16283a; font-weight:600; vertical-align:top;">{{ $json.body.insuranceType }}</td>
+                      <td style="padding-bottom:10px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#16283a; font-weight:600; vertical-align:top;">{{ $('Webhook1').item.json.body.insuranceType }}</td>
                     </tr>
                     <tr>
                       <td style="padding-bottom:10px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#5c6b74; vertical-align:top;">Name</td>
-                      <td style="padding-bottom:10px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#16283a; font-weight:600; vertical-align:top;">{{ $json.body.firstName }} {{ $json.body.lastName }}</td>
+                      <td style="padding-bottom:10px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#16283a; font-weight:600; vertical-align:top;">{{ $('Webhook1').item.json.body.firstName }} {{ $('Webhook1').item.json.body.lastName }}</td>
                     </tr>
                     <tr>
                       <td style="padding-bottom:10px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#5c6b74; vertical-align:top;">Phone</td>
-                      <td style="padding-bottom:10px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#16283a; font-weight:600; vertical-align:top;">{{ $json.body.phone }}</td>
+                      <td style="padding-bottom:10px; font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#16283a; font-weight:600; vertical-align:top;">{{ $('Webhook1').item.json.body.phone }}</td>
                     </tr>
                     <tr>
                       <td style="font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#5c6b74; vertical-align:top;">Message</td>
-                      <td style="font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#16283a; font-weight:600; vertical-align:top;">{{ $json.body.message || 'No additional details provided.' }}</td>
+                      <td style="font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif; font-size:13px; color:#16283a; font-weight:600; vertical-align:top;">{{ $('Webhook1').item.json.body.message || 'No additional details provided.' }}</td>
                     </tr>
                   </table>
                 </td>
