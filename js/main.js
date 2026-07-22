@@ -166,6 +166,23 @@
       })
         .then(function (res) {
           if (!res.ok) throw new Error('Request failed: ' + res.status);
+
+          // Health Insurance is always the first tab (language-independent —
+          // labels differ between EN/FR, position doesn't). For that lead,
+          // forward straight into the detailed health questionnaire instead
+          // of showing the inline "thanks" message, carrying the contact
+          // details over via the URL so the person doesn't retype them.
+          if (activeTab === tabs[0]) {
+            var params = new URLSearchParams({
+              firstName: payload.firstName,
+              lastName: payload.lastName,
+              email: payload.email,
+              phone: payload.phone
+            });
+            window.location.href = '/health-insurance-cambodia/long-term-insurance-cambodia-for-expats/form/index.html?' + params.toString();
+            return;
+          }
+
           status.textContent = 'Thanks! A broker will contact you within 24 hours.';
           status.className = 'form-status success';
           form.reset();
