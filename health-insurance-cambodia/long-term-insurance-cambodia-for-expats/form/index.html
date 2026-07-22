@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tell Us About Your Health Insurance Needs | AG Insurance Broker</title>
+<meta name="description" content="A few quick questions to help us match you with the right international health insurance plan in Cambodia.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="../../../assets/logo-mark.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/styles.css">
+
+<style>
+  /* Page-specific: multi-step questionnaire (draft) */
+  .quiz-hero {
+    background: linear-gradient(160deg, var(--navy-800), var(--navy-900));
+    padding: 44px 0 40px;
+  }
+  .quiz-hero h1 { color: var(--white); font-size: clamp(1.6rem, 3vw, 2.1rem); margin-top: 8px; max-width: 42ch; }
+  .quiz-hero p { color: rgba(255,255,255,0.68); margin-top: 10px; max-width: 56ch; font-size: 0.98rem; }
+
+  .quiz-wrap { padding: 48px 0 96px; }
+  .quiz-card {
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 40px;
+  }
+  @media (max-width: 760px) { .quiz-card { padding: 28px 22px; } }
+
+  .quiz-progress-track {
+    height: 6px;
+    background: var(--cream-50);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .quiz-progress-fill {
+    height: 100%;
+    background: var(--blue-500);
+    border-radius: 999px;
+    width: 7%;
+    transition: width .3s ease;
+  }
+  .quiz-progress-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    margin-bottom: 32px;
+    display: block;
+  }
+
+  .quiz-step { display: none; }
+  .quiz-step.is-active { display: block; animation: quizFade .25s ease; }
+  @keyframes quizFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .quiz-step-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue-700);
+    margin-bottom: 8px;
+  }
+  .quiz-step h2 { font-size: 1.35rem; margin-bottom: 6px; }
+  .quiz-step-hint { color: var(--gray-600); font-size: 0.9rem; margin-bottom: 24px; }
+
+  .quiz-field { margin-bottom: 22px; }
+  .quiz-field label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--ink-700); margin-bottom: 8px; }
+  .quiz-field input[type="text"],
+  .quiz-field input[type="date"],
+  .quiz-field input[type="number"],
+  .quiz-field select,
+  .quiz-field textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--ink-900);
+    background: var(--white);
+  }
+  .quiz-field textarea { resize: vertical; }
+  .quiz-field input:focus, .quiz-field select:focus, .quiz-field textarea:focus {
+    outline: 2px solid var(--blue-500);
+    outline-offset: 1px;
+    border-color: var(--blue-500);
+  }
+  .quiz-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 500px) { .quiz-row { grid-template-columns: 1fr; } }
+
+  /* Selectable option pills (radio/checkbox) */
+  .option-list { display: flex; flex-direction: column; gap: 10px; }
+  .option-pill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 16px;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .option-pill:hover { border-color: var(--blue-500); }
+  .option-pill.is-selected { border-color: var(--blue-500); background: rgba(58,141,192,0.06); }
+  .option-pill input[type="radio"], .option-pill input[type="checkbox"] {
+    width: 18px; height: 18px; accent-color: var(--blue-500); flex-shrink: 0;
+  }
+  .option-pill span { font-size: 0.94rem; color: var(--ink-900); }
+  .option-pill.is-disabled { opacity: 0.45; pointer-events: none; }
+
+  .quiz-helper {
+    display: flex;
+    gap: 10px;
+    background: var(--cream-50);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: var(--ink-700);
+  }
+  .quiz-helper svg { flex-shrink: 0; margin-top: 2px; color: var(--blue-600); }
+
+  .quiz-conditional { display: none; margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--border); }
+  .quiz-conditional.is-visible { display: block; }
+
+  .family-member {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .family-member-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--gray-400);
+    font-size: 1.1rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .family-member-remove:hover { color: #c0392b; }
+  .btn-add-member {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--blue-600);
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+  }
+  .btn-add-member:hover { border-color: var(--blue-500); background: rgba(58,141,192,0.05); }
+
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 12px; }
+  .quiz-nav-spacer { flex: 1; }
+
+  .quiz-done { text-align: center; padding: 20px 0; }
+  .quiz-done svg { color: #2f8f5b; margin: 0 auto 18px; }
+  .quiz-done h2 { margin-bottom: 10px; }
+  .quiz-done p { color: var(--gray-600); max-width: 44ch; margin: 0 auto; }
+
+  .quiz-draft-note {
+    max-width: 640px;
+    margin: 0 auto 24px;
+    background: rgba(217,165,33,0.1);
+    border: 1px solid rgba(217,165,33,0.35);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    color: var(--ink-700);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Header -->
+<header class="site-header" id="header">
+  <div class="container header-inner">
+    <a href="../../../index.html" class="logo">
+      <img src="../../../assets/logo-white.svg" alt="AG Insurance Broker" class="logo-img">
+    </a>
+
+    <nav class="main-nav" id="main-nav" aria-label="Primary">
+      <div class="nav-dropdown">
+        <button type="button" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          General Insurance
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../../../index.html#coverages" role="menuitem">All Coverages</a>
+          <a href="../../../property-insurance-in-cambodia/index.html" role="menuitem">Property &amp; P&amp;I</a>
+          <a href="../../../vehicle-insurance-in-cambodia/index.html" role="menuitem">Motor Insurance</a>
+          <a href="../../../public-liability-in-cambodia/index.html" role="menuitem">Public Liability</a>
+          <a href="../../../construction-all-risks/index.html" role="menuitem">Construction All Risks</a>
+          <a href="../../../marine-and-cargo-insurance-in-cambodia/index.html" role="menuitem">Marine Cargo</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <button type="button" class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          Health Insurance
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="../../../index.html#coverages" role="menuitem">All Health Coverages</a>
+          <a href="../index.html" role="menuitem">Long-Term Insurance for Expats</a>
+          <a href="../../employee-staff-insurance/index.html" role="menuitem">Employee &amp; Group Health Plans</a>
+          <a href="../../travel-insurance-cambodia/index.html" role="menuitem">Travel Insurance</a>
+        </div>
+      </div>
+      <a href="../../../how-to-fill-an-insurance-claim-in-cambodia/index.html">Claims</a>
+      <a href="../../../about-us-ag-cambodia-since-2006/index.html">About Us</a>
+      <a href="../../../index.html#contact">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="header-phone" href="tel:+85523998018">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.5c0-.6.4-1 1-1H7.7c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>+855 23 998 018</span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Compact intro -->
+  <section class="quiz-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../../../index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="../../../index.html#coverages">Health Insurance</a>
+        <span aria-hidden="true">/</span>
+        <a href="../index.html">Long-Term Insurance for Expats</a>
+        <span aria-hidden="true">/</span>
+        <span>Questionnaire</span>
+      </nav>
+      <p class="eyebrow eyebrow-light">Health Insurance &bull; Detailed Questionnaire</p>
+      <h1>Tell us a bit more, so we can match you with the right plan</h1>
+      <p>A few quick questions — takes about 2 minutes. The more we know, the more accurate your quote will be.</p>
+    </div>
+  </section>
+
+  <!-- Multi-step questionnaire -->
+  <section class="quiz-wrap">
+    <div class="container">
+
+      <p class="quiz-draft-note">This page is a first draft for internal review — the form does not submit anywhere yet.</p>
+
+      <div class="quiz-card">
+        <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+        <span class="quiz-progress-label" id="quiz-progress-label">Step 1 of 14</span>
+
+        <form id="quiz-form">
+
+          <!-- Step 1 — About Yourself -->
+          <div class="quiz-step is-active" data-step="1">
+            <p class="quiz-step-eyebrow">About yourself</p>
+            <h2>A little about you</h2>
+            <div class="quiz-field">
+              <label for="q-nationality">Country of nationality</label>
+              <select id="q-nationality" name="nationality">
+                <option value="">Select a country</option>
+                <option>France</option>
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>Australia</option>
+                <option>Canada</option>
+                <option>Germany</option>
+                <option>Cambodia</option>
+                <option>Singapore</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="quiz-field">
+              <label for="q-residence">Country of residence</label>
+              <select id="q-residence" name="residence">
+                <option value="Cambodia" selected>Cambodia</option>
+                <option>Thailand</option>
+                <option>Vietnam</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="quiz-field">
+              <label for="q-city">City</label>
+              <select id="q-city" name="city">
+                <option value="">Select a city</option>
+                <option>Phnom Penh</option>
+                <option>Siem Reap</option>
+                <option>Kampot</option>
+                <option>Battambang</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="quiz-field">
+              <label for="q-dob">Date of birth (or age)</label>
+              <input type="text" id="q-dob" name="dob" placeholder="e.g. 14/06/1985 or 40">
+            </div>
+          </div>
+
+          <!-- Step 2 — Who needs cover -->
+          <div class="quiz-step" data-step="2">
+            <p class="quiz-step-eyebrow">Who needs cover?</p>
+            <h2>Who are we covering?</h2>
+            <div class="option-list" data-option-group="who">
+              <label class="option-pill"><input type="radio" name="who" value="myself"><span>Just myself</span></label>
+              <label class="option-pill"><input type="radio" name="who" value="spouse"><span>Myself + spouse</span></label>
+              <label class="option-pill"><input type="radio" name="who" value="family"><span>Family</span></label>
+              <label class="option-pill"><input type="radio" name="who" value="children"><span>Children only</span></label>
+            </div>
+
+            <div class="quiz-conditional" id="family-members-block">
+              <p class="quiz-step-hint" style="margin-top:18px;">Add each family member you'd like covered.</p>
+              <div id="family-members-list"></div>
+              <button type="button" class="btn-add-member" id="add-family-member">+ Add family member</button>
+            </div>
+          </div>
+
+          <!-- Step 3 — When -->
+          <div class="quiz-step" data-step="3">
+            <p class="quiz-step-eyebrow">Timing</p>
+            <h2>When do you need insurance?</h2>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="timing" value="immediately"><span>Immediately</span></label>
+              <label class="option-pill"><input type="radio" name="timing" value="30days"><span>Within 30 days</span></label>
+              <label class="option-pill"><input type="radio" name="timing" value="1to3months"><span>In 1&ndash;3 months</span></label>
+              <label class="option-pill"><input type="radio" name="timing" value="comparing"><span>Just comparing options</span></label>
+            </div>
+          </div>
+
+          <!-- Step 4 — Current insurance -->
+          <div class="quiz-step" data-step="4">
+            <p class="quiz-step-eyebrow">Current insurance</p>
+            <h2>Do you currently have health insurance?</h2>
+            <div class="option-list" data-option-group="current-insurance">
+              <label class="option-pill"><input type="radio" name="hasCurrentInsurance" value="yes"><span>Yes</span></label>
+              <label class="option-pill"><input type="radio" name="hasCurrentInsurance" value="no"><span>No</span></label>
+            </div>
+            <div class="quiz-conditional" id="current-insurance-block">
+              <div class="quiz-field">
+                <label for="q-current-insurer">Current insurer</label>
+                <input type="text" id="q-current-insurer" name="currentInsurer">
+              </div>
+              <div class="quiz-field">
+                <label for="q-renewal-date">Renewal date</label>
+                <input type="text" id="q-renewal-date" name="renewalDate" placeholder="e.g. March 2027">
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5 — Where covered -->
+          <div class="quiz-step" data-step="5">
+            <p class="quiz-step-eyebrow">Coverage area</p>
+            <h2>Where do you want to be covered?</h2>
+            <p class="quiz-step-hint">This is probably the most important question.</p>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="coverageArea" value="cambodia"><span>Cambodia only</span></label>
+              <label class="option-pill"><input type="radio" name="coverageArea" value="cambodia-thailand"><span>Cambodia + Thailand</span></label>
+              <label class="option-pill"><input type="radio" name="coverageArea" value="sea"><span>Southeast Asia</span></label>
+              <label class="option-pill"><input type="radio" name="coverageArea" value="worldwide-ex-usa"><span>Worldwide excluding USA</span></label>
+              <label class="option-pill"><input type="radio" name="coverageArea" value="worldwide-inc-usa"><span>Worldwide including USA</span></label>
+            </div>
+          </div>
+
+          <!-- Step 6 — Budget -->
+          <div class="quiz-step" data-step="6">
+            <p class="quiz-step-eyebrow">Budget</p>
+            <h2>What's your monthly or yearly budget?</h2>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="budget" value="under500"><span>Under $500</span></label>
+              <label class="option-pill"><input type="radio" name="budget" value="500to1000"><span>$500&ndash;1,000</span></label>
+              <label class="option-pill"><input type="radio" name="budget" value="1000to2000"><span>$1,000&ndash;2,000</span></label>
+              <label class="option-pill"><input type="radio" name="budget" value="2000to4000"><span>$2,000&ndash;4,000</span></label>
+              <label class="option-pill"><input type="radio" name="budget" value="over4000"><span>More than $4,000</span></label>
+            </div>
+            <div class="quiz-helper">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>People usually know their budget before knowing deductibles.</span>
+            </div>
+          </div>
+
+          <!-- Step 7 — Deductible -->
+          <div class="quiz-step" data-step="7">
+            <p class="quiz-step-eyebrow">Deductible</p>
+            <h2>Would you consider a deductible to reduce the premium?</h2>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="deductible" value="none"><span>No deductible</span></label>
+              <label class="option-pill"><input type="radio" name="deductible" value="500"><span>$500</span></label>
+              <label class="option-pill"><input type="radio" name="deductible" value="1000"><span>$1,000</span></label>
+              <label class="option-pill"><input type="radio" name="deductible" value="5000"><span>$5,000</span></label>
+              <label class="option-pill"><input type="radio" name="deductible" value="unsure"><span>I don't know</span></label>
+            </div>
+            <div class="quiz-helper">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span>Many international plans, including the ACS Expat Cambodia plans, are available with multiple deductible options ranging from no deductible up to USD 10,000.</span>
+            </div>
+          </div>
+
+          <!-- Step 8 — Benefits -->
+          <div class="quiz-step" data-step="8">
+            <p class="quiz-step-eyebrow">Benefits</p>
+            <h2>Which benefits are important to you?</h2>
+            <div class="option-list">
+              <label class="option-pill"><input type="checkbox" name="benefits" value="hospitalisation"><span>Hospitalisation</span></label>
+              <label class="option-pill"><input type="checkbox" name="benefits" value="outpatient"><span>Outpatient</span></label>
+              <label class="option-pill"><input type="checkbox" name="benefits" value="dental"><span>Dental</span></label>
+              <label class="option-pill"><input type="checkbox" name="benefits" value="vision"><span>Vision</span></label>
+              <label class="option-pill"><input type="checkbox" name="benefits" value="maternity"><span>Maternity</span></label>
+              <label class="option-pill"><input type="checkbox" name="benefits" value="evacuation"><span>Medical evacuation</span></label>
+              <label class="option-pill"><input type="checkbox" name="benefits" value="checkup"><span>Annual check-up</span></label>
+              <label class="option-pill"><input type="checkbox" name="benefits" value="alternative"><span>Alternative medicine</span></label>
+              <label class="option-pill"><input type="checkbox" name="benefits" value="mentalhealth"><span>Mental health</span></label>
+            </div>
+          </div>
+
+          <!-- Step 9 — Medical questions -->
+          <div class="quiz-step" data-step="9">
+            <p class="quiz-step-eyebrow">Medical questions</p>
+            <h2>Have you been diagnosed or treated in the past 5 years for:</h2>
+            <div class="option-list" data-option-group="medical">
+              <label class="option-pill"><input type="checkbox" name="medical" value="diabetes"><span>Diabetes</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="heart"><span>Heart disease</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="cancer"><span>Cancer</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="bloodpressure"><span>High blood pressure</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="asthma"><span>Asthma</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="none" id="medical-none"><span>None of the above</span></label>
+            </div>
+          </div>
+
+          <!-- Step 10 — Smoking -->
+          <div class="quiz-step" data-step="10">
+            <p class="quiz-step-eyebrow">Lifestyle</p>
+            <h2>Do you smoke?</h2>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="smoking" value="yes"><span>Yes</span></label>
+              <label class="option-pill"><input type="radio" name="smoking" value="no"><span>No</span></label>
+            </div>
+          </div>
+
+          <!-- Step 11 — Pregnancy -->
+          <div class="quiz-step" data-step="11">
+            <p class="quiz-step-eyebrow">Pregnancy</p>
+            <h2>Is pregnancy applicable?</h2>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="pregnancy" value="no"><span>No</span></label>
+              <label class="option-pill"><input type="radio" name="pregnancy" value="planning"><span>Planning pregnancy</span></label>
+              <label class="option-pill"><input type="radio" name="pregnancy" value="current"><span>Currently pregnant</span></label>
+            </div>
+          </div>
+
+          <!-- Step 12 — Employer -->
+          <div class="quiz-step" data-step="12">
+            <p class="quiz-step-eyebrow">Payment</p>
+            <h2>Who is paying for this policy?</h2>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="payer" value="self"><span>Myself</span></label>
+              <label class="option-pill"><input type="radio" name="payer" value="employer"><span>Employer</span></label>
+              <label class="option-pill"><input type="radio" name="payer" value="partly"><span>Partly employer</span></label>
+            </div>
+          </div>
+
+          <!-- Step 13 — Additional notes -->
+          <div class="quiz-step" data-step="13">
+            <p class="quiz-step-eyebrow">Anything else?</p>
+            <h2>Additional notes</h2>
+            <div class="quiz-field">
+              <label for="q-notes">Anything else you'd like us to know?</label>
+              <textarea id="q-notes" name="notes" rows="5"></textarea>
+            </div>
+          </div>
+
+          <!-- Step 14 — Optional lead scoring -->
+          <div class="quiz-step" data-step="14">
+            <p class="quiz-step-eyebrow">Last step &bull; optional</p>
+            <h2>A couple of last details</h2>
+            <p class="quiz-step-hint">Totally optional — but it helps us prepare a more relevant quote for you.</p>
+            <div class="quiz-row">
+              <div class="quiz-field">
+                <label for="q-occupation">Occupation</label>
+                <input type="text" id="q-occupation" name="occupation">
+              </div>
+              <div class="quiz-field">
+                <label for="q-income">Annual income</label>
+                <input type="text" id="q-income" name="income">
+              </div>
+            </div>
+            <div class="quiz-field">
+              <label for="q-source">How did you hear about us?</label>
+              <select id="q-source" name="source">
+                <option value="">Select an option</option>
+                <option>Google search</option>
+                <option>Facebook</option>
+                <option>LinkedIn</option>
+                <option>Referral from a friend/colleague</option>
+                <option>Already a client</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="quiz-field">
+              <label>What matters most to you?</label>
+              <div class="option-list">
+                <label class="option-pill"><input type="radio" name="priority" value="premium"><span>Lowest premium</span></label>
+                <label class="option-pill"><input type="radio" name="priority" value="coverage"><span>Best coverage</span></label>
+                <label class="option-pill"><input type="radio" name="priority" value="hospitals"><span>Worldwide hospitals</span></label>
+                <label class="option-pill"><input type="radio" name="priority" value="billing"><span>Direct billing</span></label>
+                <label class="option-pill"><input type="radio" name="priority" value="claims"><span>Fast claims</span></label>
+                <label class="option-pill"><input type="radio" name="priority" value="support"><span>English-speaking support</span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Done state -->
+          <div class="quiz-step" data-step="done">
+            <div class="quiz-done">
+              <svg width="52" height="52" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <h2>Thanks — that's everything!</h2>
+              <p>A broker will review your answers and get back to you within 24 hours with tailored options. (Draft note: this is a preview — no data was actually sent.)</p>
+            </div>
+          </div>
+
+          <div class="quiz-nav" id="quiz-nav">
+            <button type="button" class="btn btn-outline-dark" id="quiz-back">Back</button>
+            <span class="quiz-nav-spacer"></span>
+            <button type="button" class="btn btn-gold" id="quiz-next">Next</button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="../../../index.html" class="logo logo-footer">
+        <img src="../../../assets/logo-white.svg" alt="AG Insurance Broker" class="logo-img">
+      </a>
+      <p>Your trusted insurance broker in Cambodia since 2006. Health, property, construction, motor and more — protecting businesses and individuals across the Kingdom.</p>
+      <div class="social-row">
+        <a href="https://www.facebook.com/insurancecambodia" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1Z" fill="currentColor"/></svg></a>
+        <a href="https://t.me/AGCambodia" target="_blank" rel="noopener" aria-label="Telegram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 4 3 11l6 2m12-9-4 16-8-6m0 0 3-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="https://www.linkedin.com/company/ag-cambodia-broker" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10v7M7 7v.01M11 17v-4.5c0-1.4 1-2.5 2.5-2.5S16 11.1 16 12.5V17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+      </div>
+    </div>
+
+    <nav class="footer-col" aria-label="General Insurance">
+      <h3>General Insurance</h3>
+      <ul>
+        <li><a href="../../../property-insurance-in-cambodia/index.html">Property &amp; P&amp;I</a></li>
+        <li><a href="../../../vehicle-insurance-in-cambodia/index.html">Motor Insurance</a></li>
+        <li><a href="../../../public-liability-in-cambodia/index.html">Public Liability</a></li>
+        <li><a href="../../../construction-all-risks/index.html">Construction All Risks</a></li>
+        <li><a href="../../../marine-and-cargo-insurance-in-cambodia/index.html">Marine Cargo</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Health Insurance">
+      <h3>Health Insurance</h3>
+      <ul>
+        <li><a href="../index.html">Individual Health</a></li>
+        <li><a href="../../employee-staff-insurance/index.html">Group Health Plans</a></li>
+        <li><a href="../index.html">International Health</a></li>
+        <li><a href="../../travel-insurance-cambodia/index.html">Travel Insurance</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-col footer-contact">
+      <h3>Contact Us</h3>
+      <ul>
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Sisowat Quay, Daun Penh, Phnom Penh 12300, Cambodia</span>
+        </li>
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.5c0-.6.4-1 1-1H7.7c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          <a href="tel:+85523998018">+855 23 998 018</a>
+        </li>
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.5"/></svg>
+          <a href="mailto:info@agcambodia.com">info@agcambodia.com</a>
+        </li>
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Mon&ndash;Fri 8:00&ndash;18:00, claims 24/7</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <p>&copy; <span id="year"></span> AG Cambodia. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../js/main.js"></script>
+<script>
+  (function () {
+    var steps = Array.prototype.slice.call(document.querySelectorAll('.quiz-step'));
+    var totalSteps = steps.length - 1; // exclude the "done" step from the count
+    var currentIndex = 0; // index into steps[]
+
+    var progressFill = document.getElementById('quiz-progress-fill');
+    var progressLabel = document.getElementById('quiz-progress-label');
+    var backBtn = document.getElementById('quiz-back');
+    var nextBtn = document.getElementById('quiz-next');
+    var navRow = document.getElementById('quiz-nav');
+
+    function renderStep() {
+      steps.forEach(function (el, i) { el.classList.toggle('is-active', i === currentIndex); });
+
+      var isDone = steps[currentIndex].dataset.step === 'done';
+      backBtn.style.visibility = (currentIndex === 0 || isDone) ? 'hidden' : 'visible';
+      navRow.style.display = isDone ? 'none' : 'flex';
+
+      var stepNum = Math.min(currentIndex + 1, totalSteps);
+      progressFill.style.width = (stepNum / totalSteps * 100) + '%';
+      progressLabel.textContent = 'Step ' + stepNum + ' of ' + totalSteps;
+
+      nextBtn.textContent = (currentIndex === totalSteps - 1) ? 'Submit' : 'Next';
+
+      document.querySelector('.quiz-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    nextBtn.addEventListener('click', function () {
+      if (currentIndex < steps.length - 1) {
+        currentIndex++;
+        renderStep();
+      }
+    });
+    backBtn.addEventListener('click', function () {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderStep();
+      }
+    });
+
+    // Selectable pill highlighting
+    document.querySelectorAll('.option-pill input').forEach(function (input) {
+      input.addEventListener('change', function () {
+        if (input.type === 'radio') {
+          document.querySelectorAll('input[name="' + input.name + '"]').forEach(function (sibling) {
+            sibling.closest('.option-pill').classList.toggle('is-selected', sibling.checked);
+          });
+        } else {
+          input.closest('.option-pill').classList.toggle('is-selected', input.checked);
+        }
+      });
+    });
+
+    // Conditional: Who needs cover -> Family members
+    var familyBlock = document.getElementById('family-members-block');
+    var familyList = document.getElementById('family-members-list');
+    var addFamilyBtn = document.getElementById('add-family-member');
+    var familyCount = 0;
+
+    function addFamilyMember() {
+      familyCount++;
+      var row = document.createElement('div');
+      row.className = 'family-member';
+      row.innerHTML =
+        '<button type="button" class="family-member-remove" aria-label="Remove">&times;</button>' +
+        '<div class="quiz-field"><label>Name</label><input type="text" name="familyName' + familyCount + '"></div>' +
+        '<div class="quiz-row">' +
+          '<div class="quiz-field"><label>Date of birth</label><input type="text" name="familyDob' + familyCount + '" placeholder="e.g. 14/06/2010"></div>' +
+          '<div class="quiz-field"><label>Relationship</label><input type="text" name="familyRelationship' + familyCount + '" placeholder="e.g. Spouse, Child"></div>' +
+        '</div>';
+      row.querySelector('.family-member-remove').addEventListener('click', function () { row.remove(); });
+      familyList.appendChild(row);
+    }
+
+    document.querySelectorAll('input[name="who"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        var showFamily = radio.value === 'family' && radio.checked;
+        if (showFamily) {
+          familyBlock.classList.add('is-visible');
+          if (familyList.children.length === 0) addFamilyMember();
+        } else if (radio.checked) {
+          familyBlock.classList.remove('is-visible');
+        }
+      });
+    });
+    addFamilyBtn.addEventListener('click', addFamilyMember);
+
+    // Conditional: current insurance yes -> show insurer/renewal fields
+    var currentInsuranceBlock = document.getElementById('current-insurance-block');
+    document.querySelectorAll('input[name="hasCurrentInsurance"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        currentInsuranceBlock.classList.toggle('is-visible', radio.value === 'yes' && radio.checked);
+      });
+    });
+
+    // Medical checkboxes: "None of the above" is mutually exclusive with the rest
+    var medicalNone = document.getElementById('medical-none');
+    var medicalOthers = Array.prototype.slice.call(document.querySelectorAll('input[name="medical"]')).filter(function (el) { return el !== medicalNone; });
+    medicalNone.addEventListener('change', function () {
+      if (medicalNone.checked) {
+        medicalOthers.forEach(function (el) {
+          el.checked = false;
+          el.closest('.option-pill').classList.remove('is-selected');
+          el.closest('.option-pill').classList.add('is-disabled');
+        });
+      } else {
+        medicalOthers.forEach(function (el) { el.closest('.option-pill').classList.remove('is-disabled'); });
+      }
+    });
+    medicalOthers.forEach(function (el) {
+      el.addEventListener('change', function () {
+        if (el.checked) {
+          medicalNone.checked = false;
+          medicalNone.closest('.option-pill').classList.remove('is-selected');
+        }
+      });
+    });
+
+    renderStep();
+  })();
+</script>
+</body>
+</html>
