@@ -241,7 +241,7 @@
 
       <div class="quiz-card">
         <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
-        <span class="quiz-progress-label" id="quiz-progress-label">Step 1 of 14</span>
+        <span class="quiz-progress-label" id="quiz-progress-label">Step 1 of 8</span>
 
         <form id="quiz-form">
 
@@ -310,6 +310,13 @@
               <label class="option-pill"><input type="radio" name="who" value="children"><span>Children only</span></label>
             </div>
 
+            <div class="quiz-conditional" id="spouse-block">
+              <div class="quiz-field">
+                <label for="q-spouse-dob">Spouse's date of birth (or age)</label>
+                <input type="text" id="q-spouse-dob" name="spouseDob" placeholder="e.g. 14/06/1987 or 38">
+              </div>
+            </div>
+
             <div class="quiz-conditional" id="family-members-block">
               <p class="quiz-step-hint" style="margin-top:18px;">Add each family member you'd like covered.</p>
               <div id="family-members-list"></div>
@@ -356,66 +363,26 @@
             <p class="quiz-step-hint">This is probably the most important question.</p>
             <div class="option-list">
               <label class="option-pill"><input type="radio" name="coverageArea" value="cambodia"><span>Cambodia only</span></label>
-              <label class="option-pill"><input type="radio" name="coverageArea" value="cambodia-thailand"><span>Cambodia + Thailand</span></label>
               <label class="option-pill"><input type="radio" name="coverageArea" value="sea"><span>Southeast Asia</span></label>
               <label class="option-pill"><input type="radio" name="coverageArea" value="worldwide-ex-usa"><span>Worldwide excluding USA</span></label>
               <label class="option-pill"><input type="radio" name="coverageArea" value="worldwide-inc-usa"><span>Worldwide including USA</span></label>
             </div>
           </div>
 
-          <!-- Step 6 — Budget -->
+          <!-- Step 6 — Benefits -->
           <div class="quiz-step" data-step="6">
-            <p class="quiz-step-eyebrow">Budget</p>
-            <h2>What's your monthly or yearly budget?</h2>
-            <div class="option-list">
-              <label class="option-pill"><input type="radio" name="budget" value="under500"><span>Under $500</span></label>
-              <label class="option-pill"><input type="radio" name="budget" value="500to1000"><span>$500&ndash;1,000</span></label>
-              <label class="option-pill"><input type="radio" name="budget" value="1000to2000"><span>$1,000&ndash;2,000</span></label>
-              <label class="option-pill"><input type="radio" name="budget" value="2000to4000"><span>$2,000&ndash;4,000</span></label>
-              <label class="option-pill"><input type="radio" name="budget" value="over4000"><span>More than $4,000</span></label>
-            </div>
-            <div class="quiz-helper">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              <span>People usually know their budget before knowing deductibles.</span>
-            </div>
-          </div>
-
-          <!-- Step 7 — Deductible -->
-          <div class="quiz-step" data-step="7">
-            <p class="quiz-step-eyebrow">Deductible</p>
-            <h2>Would you consider a deductible to reduce the premium?</h2>
-            <div class="option-list">
-              <label class="option-pill"><input type="radio" name="deductible" value="none"><span>No deductible</span></label>
-              <label class="option-pill"><input type="radio" name="deductible" value="500"><span>$500</span></label>
-              <label class="option-pill"><input type="radio" name="deductible" value="1000"><span>$1,000</span></label>
-              <label class="option-pill"><input type="radio" name="deductible" value="5000"><span>$5,000</span></label>
-              <label class="option-pill"><input type="radio" name="deductible" value="unsure"><span>I don't know</span></label>
-            </div>
-            <div class="quiz-helper">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              <span>Many international plans, including the ACS Expat Cambodia plans, are available with multiple deductible options ranging from no deductible up to USD 10,000.</span>
-            </div>
-          </div>
-
-          <!-- Step 8 — Benefits -->
-          <div class="quiz-step" data-step="8">
             <p class="quiz-step-eyebrow">Benefits</p>
-            <h2>Which benefits are important to you?</h2>
+            <h2>Which level of benefits do you need?</h2>
             <div class="option-list">
-              <label class="option-pill"><input type="checkbox" name="benefits" value="hospitalisation"><span>Hospitalisation</span></label>
-              <label class="option-pill"><input type="checkbox" name="benefits" value="outpatient"><span>Outpatient</span></label>
-              <label class="option-pill"><input type="checkbox" name="benefits" value="dental"><span>Dental</span></label>
-              <label class="option-pill"><input type="checkbox" name="benefits" value="vision"><span>Vision</span></label>
-              <label class="option-pill"><input type="checkbox" name="benefits" value="maternity"><span>Maternity</span></label>
-              <label class="option-pill"><input type="checkbox" name="benefits" value="evacuation"><span>Medical evacuation</span></label>
-              <label class="option-pill"><input type="checkbox" name="benefits" value="checkup"><span>Annual check-up</span></label>
-              <label class="option-pill"><input type="checkbox" name="benefits" value="alternative"><span>Alternative medicine</span></label>
-              <label class="option-pill"><input type="checkbox" name="benefits" value="mentalhealth"><span>Mental health</span></label>
+              <label class="option-pill"><input type="radio" name="benefitsTier" value="hospitalisation"><span>Hospitalisation</span></label>
+              <label class="option-pill"><input type="radio" name="benefitsTier" value="hosp-outpatient"><span>Hospitalisation + Outpatient</span></label>
+              <label class="option-pill"><input type="radio" name="benefitsTier" value="hosp-outpatient-maternity"><span>Hospitalisation + Outpatient + Maternity</span></label>
+              <label class="option-pill"><input type="radio" name="benefitsTier" value="hosp-outpatient-maternity-dental-vision"><span>Hospitalisation + Outpatient + Maternity + Dental + Vision</span></label>
             </div>
           </div>
 
-          <!-- Step 9 — Medical questions -->
-          <div class="quiz-step" data-step="9">
+          <!-- Step 7 — Medical questions -->
+          <div class="quiz-step" data-step="7">
             <p class="quiz-step-eyebrow">Medical questions</p>
             <h2>Have you been diagnosed or treated in the past 5 years for:</h2>
             <div class="option-list" data-option-group="medical">
@@ -425,68 +392,16 @@
               <label class="option-pill"><input type="checkbox" name="medical" value="bloodpressure"><span>High blood pressure</span></label>
               <label class="option-pill"><input type="checkbox" name="medical" value="asthma"><span>Asthma</span></label>
               <label class="option-pill"><input type="checkbox" name="medical" value="none" id="medical-none"><span>None of the above</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="prefer-not-to-say" id="medical-prefer-not"><span>Prefer not to say for now</span></label>
             </div>
           </div>
 
-          <!-- Step 10 — Smoking -->
-          <div class="quiz-step" data-step="10">
-            <p class="quiz-step-eyebrow">Lifestyle</p>
-            <h2>Do you smoke?</h2>
-            <div class="option-list">
-              <label class="option-pill"><input type="radio" name="smoking" value="yes"><span>Yes</span></label>
-              <label class="option-pill"><input type="radio" name="smoking" value="no"><span>No</span></label>
-            </div>
-          </div>
-
-          <!-- Step 11 — Pregnancy -->
-          <div class="quiz-step" data-step="11">
-            <p class="quiz-step-eyebrow">Pregnancy</p>
-            <h2>Is pregnancy applicable?</h2>
-            <div class="option-list">
-              <label class="option-pill"><input type="radio" name="pregnancy" value="no"><span>No</span></label>
-              <label class="option-pill"><input type="radio" name="pregnancy" value="planning"><span>Planning pregnancy</span></label>
-              <label class="option-pill"><input type="radio" name="pregnancy" value="current"><span>Currently pregnant</span></label>
-            </div>
-          </div>
-
-          <!-- Step 12 — Employer -->
-          <div class="quiz-step" data-step="12">
-            <p class="quiz-step-eyebrow">Payment</p>
-            <h2>Who is paying for this policy?</h2>
-            <div class="option-list">
-              <label class="option-pill"><input type="radio" name="payer" value="self"><span>Myself</span></label>
-              <label class="option-pill"><input type="radio" name="payer" value="employer"><span>Employer</span></label>
-              <label class="option-pill"><input type="radio" name="payer" value="partly"><span>Partly employer</span></label>
-            </div>
-          </div>
-
-          <!-- Step 13 — Additional notes -->
-          <div class="quiz-step" data-step="13">
-            <p class="quiz-step-eyebrow">Anything else?</p>
-            <h2>Additional notes</h2>
+          <!-- Step 8 — How did you hear about us -->
+          <div class="quiz-step" data-step="8">
+            <p class="quiz-step-eyebrow">Last step</p>
+            <h2>How did you hear about us?</h2>
             <div class="quiz-field">
-              <label for="q-notes">Anything else you'd like us to know?</label>
-              <textarea id="q-notes" name="notes" rows="5"></textarea>
-            </div>
-          </div>
-
-          <!-- Step 14 — Optional lead scoring -->
-          <div class="quiz-step" data-step="14">
-            <p class="quiz-step-eyebrow">Last step &bull; optional</p>
-            <h2>A couple of last details</h2>
-            <p class="quiz-step-hint">Totally optional — but it helps us prepare a more relevant quote for you.</p>
-            <div class="quiz-row">
-              <div class="quiz-field">
-                <label for="q-occupation">Occupation</label>
-                <input type="text" id="q-occupation" name="occupation">
-              </div>
-              <div class="quiz-field">
-                <label for="q-income">Annual income</label>
-                <input type="text" id="q-income" name="income">
-              </div>
-            </div>
-            <div class="quiz-field">
-              <label for="q-source">How did you hear about us?</label>
+              <label for="q-source">Select an option</label>
               <select id="q-source" name="source">
                 <option value="">Select an option</option>
                 <option>Google search</option>
@@ -496,17 +411,6 @@
                 <option>Already a client</option>
                 <option>Other</option>
               </select>
-            </div>
-            <div class="quiz-field">
-              <label>What matters most to you?</label>
-              <div class="option-list">
-                <label class="option-pill"><input type="radio" name="priority" value="premium"><span>Lowest premium</span></label>
-                <label class="option-pill"><input type="radio" name="priority" value="coverage"><span>Best coverage</span></label>
-                <label class="option-pill"><input type="radio" name="priority" value="hospitals"><span>Worldwide hospitals</span></label>
-                <label class="option-pill"><input type="radio" name="priority" value="billing"><span>Direct billing</span></label>
-                <label class="option-pill"><input type="radio" name="priority" value="claims"><span>Fast claims</span></label>
-                <label class="option-pill"><input type="radio" name="priority" value="support"><span>English-speaking support</span></label>
-              </div>
             </div>
           </div>
 
@@ -587,10 +491,11 @@
       });
     });
 
-    // Conditional: Who needs cover -> Family members
+    // Conditional: Who needs cover -> Family members / Spouse DOB
     var familyBlock = document.getElementById('family-members-block');
     var familyList = document.getElementById('family-members-list');
     var addFamilyBtn = document.getElementById('add-family-member');
+    var spouseBlock = document.getElementById('spouse-block');
     var familyCount = 0;
 
     function addFamilyMember() {
@@ -610,13 +515,12 @@
 
     document.querySelectorAll('input[name="who"]').forEach(function (radio) {
       radio.addEventListener('change', function () {
-        var showFamily = radio.value === 'family' && radio.checked;
-        if (showFamily) {
-          familyBlock.classList.add('is-visible');
-          if (familyList.children.length === 0) addFamilyMember();
-        } else if (radio.checked) {
-          familyBlock.classList.remove('is-visible');
-        }
+        if (!radio.checked) return;
+
+        familyBlock.classList.toggle('is-visible', radio.value === 'family');
+        if (radio.value === 'family' && familyList.children.length === 0) addFamilyMember();
+
+        spouseBlock.classList.toggle('is-visible', radio.value === 'spouse');
       });
     });
     addFamilyBtn.addEventListener('click', addFamilyMember);
@@ -629,25 +533,38 @@
       });
     });
 
-    // Medical checkboxes: "None of the above" is mutually exclusive with the rest
-    var medicalNone = document.getElementById('medical-none');
-    var medicalOthers = Array.prototype.slice.call(document.querySelectorAll('input[name="medical"]')).filter(function (el) { return el !== medicalNone; });
-    medicalNone.addEventListener('change', function () {
-      if (medicalNone.checked) {
-        medicalOthers.forEach(function (el) {
-          el.checked = false;
-          el.closest('.option-pill').classList.remove('is-selected');
-          el.closest('.option-pill').classList.add('is-disabled');
-        });
-      } else {
-        medicalOthers.forEach(function (el) { el.closest('.option-pill').classList.remove('is-disabled'); });
-      }
+    // Medical checkboxes: "None of the above" and "Prefer not to say" are
+    // mutually exclusive with the specific conditions, and with each other.
+    var medicalExclusive = [document.getElementById('medical-none'), document.getElementById('medical-prefer-not')];
+    var medicalOthers = Array.prototype.slice.call(document.querySelectorAll('input[name="medical"]'))
+      .filter(function (el) { return medicalExclusive.indexOf(el) === -1; });
+
+    medicalExclusive.forEach(function (exclusiveEl) {
+      exclusiveEl.addEventListener('change', function () {
+        if (exclusiveEl.checked) {
+          medicalOthers.forEach(function (el) {
+            el.checked = false;
+            el.closest('.option-pill').classList.remove('is-selected');
+            el.closest('.option-pill').classList.add('is-disabled');
+          });
+          medicalExclusive.forEach(function (other) {
+            if (other !== exclusiveEl) {
+              other.checked = false;
+              other.closest('.option-pill').classList.remove('is-selected');
+            }
+          });
+        } else {
+          medicalOthers.forEach(function (el) { el.closest('.option-pill').classList.remove('is-disabled'); });
+        }
+      });
     });
     medicalOthers.forEach(function (el) {
       el.addEventListener('change', function () {
         if (el.checked) {
-          medicalNone.checked = false;
-          medicalNone.closest('.option-pill').classList.remove('is-selected');
+          medicalExclusive.forEach(function (exclusiveEl) {
+            exclusiveEl.checked = false;
+            exclusiveEl.closest('.option-pill').classList.remove('is-selected');
+          });
         }
       });
     });
