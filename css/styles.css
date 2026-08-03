@@ -625,30 +625,6 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   height: 100%;
   object-fit: cover;
 }
-.team-visual-inner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(200deg, rgba(10,31,44,0.05) 30%, rgba(10,31,44,0.75) 100%);
-}
-.team-shield { position: relative; z-index: 2; color: var(--blue-300); }
-.team-icon {
-  position: absolute;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: rgba(10,31,44,0.55);
-  backdrop-filter: blur(4px);
-  color: var(--blue-300);
-}
-.team-icon-1 { top: 12%; left: 14%; }
-.team-icon-2 { top: 12%; right: 14%; }
-.team-icon-3 { bottom: 12%; left: 14%; }
-.team-icon-4 { bottom: 12%; right: 14%; }
 .check-list { margin-top: 26px; display: flex; flex-direction: column; gap: 14px; }
 .check-list li {
   position: relative;
