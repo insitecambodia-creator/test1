@@ -1,0 +1,136 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import type { Lang } from '../i18n/ui';
+import { getAltLangHref } from '../i18n/utils';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Explicit path to this page's translated counterpart, if the
+   * default mirrored-slug guess doesn't apply (e.g. not yet built). */
+  altHref?: string;
+  ogImage?: string;
+}
+
+const { lang, title, description, altHref, ogImage } = Astro.props;
+
+const canonicalPath = Astro.url.pathname;
+const canonicalUrl = new URL(canonicalPath, Astro.site).toString();
+const resolvedAltHref = altHref ?? getAltLangHref(canonicalPath, lang);
+const altLangUrl = new URL(resolvedAltHref, Astro.site).toString();
+const enUrl = lang === 'en' ? canonicalUrl : altLangUrl;
+const frUrl = lang === 'fr' ? canonicalUrl : altLangUrl;
+const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/agcontact-page-tn.jpg';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="fr" href={frUrl} />
+    <link rel="alternate" hreflang="x-default" href={enUrl} />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg" />
+
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'fr_FR'} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="AG Insurance Broker" />
+    <meta property="og:image" content={ogImage ?? defaultOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage ?? defaultOgImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'Place',
+          '@id': 'https://www.agcambodia.com/#place',
+          geo: { '@type': 'GeoCoordinates', latitude: '11.56210306704514', longitude: '104.93555989205815' },
+          hasMap: 'https://www.google.com/maps/search/?api=1&query=11.56210306704514,104.93555989205815',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Sisowat Quay',
+            addressLocality: 'Daun Penh',
+            addressRegion: 'Phnom Penh',
+            postalCode: '12300',
+            addressCountry: 'KH',
+          },
+        },
+        {
+          '@type': ['InsuranceAgency', 'Organization'],
+          '@id': 'https://www.agcambodia.com/#organization',
+          name: 'AG Insurance Broker (Cambodia) Co., Ltd.',
+          legalName: 'AG Insurance Broker (Cambodia) Co., Ltd.',
+          url: 'https://www.agcambodia.com',
+          sameAs: [
+            'https://www.facebook.com/insurancecambodia',
+            'https://t.me/AGCambodia',
+            'https://www.linkedin.com/company/ag-cambodia-broker',
+          ],
+          email: 'info@agcambodia.com',
+          telephone: '+855 23 998 018',
+          priceRange: '$$$',
+          openingHours: ['Monday,Tuesday,Wednesday,Thursday,Friday 09:00-17:00', 'Saturday 09:00-12:00'],
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Sisowat Quay',
+            addressLocality: 'Daun Penh',
+            addressRegion: 'Phnom Penh',
+            postalCode: '12300',
+            addressCountry: 'KH',
+          },
+          location: { '@id': 'https://www.agcambodia.com/#place' },
+        },
+        {
+          '@type': 'WebSite',
+          '@id': 'https://www.agcambodia.com/#website',
+          url: 'https://www.agcambodia.com',
+          name: 'AG Insurance Broker',
+          alternateName: 'AG Cambodia',
+          publisher: { '@id': 'https://www.agcambodia.com/#organization' },
+          inLanguage: lang === 'en' ? 'en-US' : 'fr-FR',
+        },
+        {
+          '@type': 'Service',
+          name: 'Insurance Brokerage Services in Cambodia',
+          description:
+            'AG Cambodia provides international and local insurance solutions since 2006. We help expatriates, families, and businesses in Cambodia find the best health, property, and travel insurance with trusted partners.',
+          serviceType: 'Insurance brokerage, health insurance, property insurance, travel insurance',
+          provider: { '@id': 'https://www.agcambodia.com/#organization' },
+          areaServed: 'KH',
+        },
+      ],
+    })} />
+  </head>
+  <body>
+    <Header lang={lang} altHref={altHref} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script src="/js/main.js" is:inline></script>
+  </body>
+</html>

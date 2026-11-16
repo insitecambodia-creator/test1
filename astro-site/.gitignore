@@ -1,0 +1,6 @@
+dist/
+node_modules/
+.astro/
+npm-debug.log*
+.env
+.DS_Store
