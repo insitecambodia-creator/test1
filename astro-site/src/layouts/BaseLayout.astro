@@ -13,9 +13,12 @@ interface Props {
    * default mirrored-slug guess doesn't apply (e.g. not yet built). */
   altHref?: string;
   ogImage?: string;
+  /** Override for the header's "Get a free quote" button, for pages
+   * with their own on-page quote form (e.g. "#form" on Claims). */
+  quoteHref?: string;
 }
 
-const { lang, title, description, altHref, ogImage } = Astro.props;
+const { lang, title, description, altHref, ogImage, quoteHref } = Astro.props;
 
 const canonicalPath = Astro.url.pathname;
 const canonicalUrl = new URL(canonicalPath, Astro.site).toString();
@@ -126,7 +129,7 @@ const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/ag
     })} />
   </head>
   <body>
-    <Header lang={lang} altHref={altHref} />
+    <Header lang={lang} altHref={altHref} quoteHref={quoteHref} />
     <main id="main">
       <slot />
     </main>

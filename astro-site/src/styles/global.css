@@ -1057,3 +1057,12 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   .main-nav.is-open .nav-dropdown-menu a { color: rgba(255,255,255,0.75); padding: 9px 4px; }
   .main-nav.is-open .nav-dropdown-menu a:hover { background: none; color: var(--white); }
 }
+
+/* ===================== Map embed ===================== */
+.map-embed {
+  margin-top: 32px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.map-embed iframe { display: block; }

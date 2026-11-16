@@ -7,12 +7,17 @@ interface Props {
   /** Explicit path to this page's translated counterpart, if the
    * default mirrored-slug guess doesn't apply (e.g. not yet built). */
   altHref?: string;
+  /** Override for the header's "Get a free quote" button, for pages
+   * with their own on-page quote form (e.g. "#form" on Claims)
+   * instead of the homepage's #contact section. */
+  quoteHref?: string;
 }
 
-const { lang, altHref } = Astro.props;
+const { lang, altHref, quoteHref } = Astro.props;
 const t = useTranslations(lang);
 const home = localizedHome(lang);
 const resolvedAltHref = altHref ?? getAltLangHref(Astro.url.pathname, lang);
+const resolvedQuoteHref = quoteHref ?? `${home}#contact`;
 
 function p(path: string): string {
   return lang === 'en' ? path : '/fr' + path;
@@ -56,7 +61,7 @@ function p(path: string): string {
       </div>
       <a href={p('/how-to-fill-an-insurance-claim-in-cambodia/')}>{t('nav.claims')}</a>
       <a href={p('/about-us-ag-cambodia-since-2006/')}>{t('nav.aboutUs')}</a>
-      <a href={`${home}#contact`}>{t('nav.contact')}</a>
+      <a href={p('/where-is-ag-cambodia-in-phnom-penh/')}>{t('nav.contact')}</a>
     </nav>
 
     <div class="header-actions">
@@ -67,7 +72,7 @@ function p(path: string): string {
       <a href={resolvedAltHref} class="lang-switch" hreflang={lang === 'en' ? 'fr' : 'en'}>
         {lang === 'en' ? 'FR' : 'EN'}
       </a>
-      <a href={`${home}#contact`} class="btn btn-gold btn-sm">{t('nav.getQuote')}</a>
+      <a href={resolvedQuoteHref} class="btn btn-gold btn-sm">{t('nav.getQuote')}</a>
       <button class="nav-toggle" id="nav-toggle" aria-label={t('nav.toggleMenu')} aria-expanded="false" aria-controls="main-nav">
         <span></span><span></span><span></span>
       </button>
