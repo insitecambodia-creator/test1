@@ -1,0 +1,368 @@
+---
+import QuizLayout from '../../../../../layouts/QuizLayout.astro';
+
+const backHref = '/fr/health-insurance-cambodia/long-term-insurance-cambodia-for-expats/';
+---
+
+<QuizLayout
+  lang="fr"
+  title="Parlez-nous de vos besoins en assurance santé | AG Insurance Broker"
+  description="Quelques questions rapides pour vous aider à trouver la bonne formule d'assurance santé internationale au Cambodge."
+  backHref={backHref}
+  skipToContent="Aller au contenu"
+  closeLabel="Fermer et retourner à la page assurance santé"
+>
+  <!-- Multi-step questionnaire -->
+  <section class="quiz-wrap">
+    <div class="container">
+      <p class="quiz-draft-note">Version de travail à usage interne — ce formulaire n'envoie rien pour le moment.</p>
+
+      <div class="quiz-card">
+        <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+        <span class="quiz-progress-label" id="quiz-progress-label">Étape 1 sur 8</span>
+
+        <form id="quiz-form">
+
+          <!-- Transmis depuis le formulaire court du site, via les
+               paramètres d'URL (?firstName=&lastName=&email=&phone=). -->
+          <input type="hidden" name="firstName" id="hidden-firstName" />
+          <input type="hidden" name="lastName" id="hidden-lastName" />
+          <input type="hidden" name="email" id="hidden-email" />
+          <input type="hidden" name="phone" id="hidden-phone" />
+
+          <!-- Step 1 — About Yourself -->
+          <div class="quiz-step is-active" data-step="1">
+            <p class="quiz-greeting" id="quiz-greeting"></p>
+            <p class="quiz-step-eyebrow">À propos de vous</p>
+            <h2>Parlez-nous un peu de vous</h2>
+            <div class="quiz-field">
+              <label for="q-nationality">Pays de nationalité</label>
+              <select id="q-nationality" name="nationality">
+                <option value="">Sélectionnez un pays</option>
+                <option>France</option>
+                <option>États-Unis</option>
+                <option>Royaume-Uni</option>
+                <option>Australie</option>
+                <option>Canada</option>
+                <option>Allemagne</option>
+                <option>Cambodge</option>
+                <option>Singapour</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="quiz-field">
+              <label for="q-residence">Pays de résidence</label>
+              <select id="q-residence" name="residence">
+                <option value="Cambodge" selected>Cambodge</option>
+                <option>Thaïlande</option>
+                <option>Vietnam</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="quiz-field">
+              <label for="q-city">Ville</label>
+              <select id="q-city" name="city">
+                <option value="">Sélectionnez une ville</option>
+                <option>Phnom Penh</option>
+                <option>Siem Reap</option>
+                <option>Kampot</option>
+                <option>Battambang</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="quiz-field">
+              <label for="q-dob">Date de naissance (ou âge)</label>
+              <input type="text" id="q-dob" name="dob" placeholder="ex. 14/06/1985 ou 40" />
+            </div>
+          </div>
+
+          <!-- Step 2 — Who needs cover -->
+          <div class="quiz-step" data-step="2">
+            <p class="quiz-step-eyebrow">Qui a besoin d'être couvert ?</p>
+            <h2>Qui souhaitez-vous assurer ?</h2>
+            <div class="option-list" data-option-group="who">
+              <label class="option-pill"><input type="radio" name="who" value="myself" /><span>Juste moi-même</span></label>
+              <label class="option-pill"><input type="radio" name="who" value="spouse" /><span>Moi-même + conjoint(e)</span></label>
+              <label class="option-pill"><input type="radio" name="who" value="family" /><span>Famille</span></label>
+              <label class="option-pill"><input type="radio" name="who" value="children" /><span>Enfants uniquement</span></label>
+            </div>
+
+            <div class="quiz-conditional" id="spouse-block">
+              <div class="quiz-field">
+                <label for="q-spouse-dob">Date de naissance du conjoint (ou âge)</label>
+                <input type="text" id="q-spouse-dob" name="spouseDob" placeholder="ex. 14/06/1987 ou 38" />
+              </div>
+            </div>
+
+            <div class="quiz-conditional" id="family-members-block">
+              <p class="quiz-step-hint" style="margin-top:18px;">Ajoutez chaque membre de la famille que vous souhaitez assurer.</p>
+              <div id="family-members-list"></div>
+              <button type="button" class="btn-add-member" id="add-family-member">+ Ajouter un membre de la famille</button>
+            </div>
+          </div>
+
+          <!-- Step 3 — When -->
+          <div class="quiz-step" data-step="3">
+            <p class="quiz-step-eyebrow">Calendrier</p>
+            <h2>Quand avez-vous besoin d'une assurance ?</h2>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="timing" value="immediately" /><span>Immédiatement</span></label>
+              <label class="option-pill"><input type="radio" name="timing" value="30days" /><span>Sous 30 jours</span></label>
+              <label class="option-pill"><input type="radio" name="timing" value="1to3months" /><span>Dans 1&ndash;3 mois</span></label>
+              <label class="option-pill"><input type="radio" name="timing" value="comparing" /><span>Je compare simplement les options</span></label>
+            </div>
+          </div>
+
+          <!-- Step 4 — Current insurance -->
+          <div class="quiz-step" data-step="4">
+            <p class="quiz-step-eyebrow">Assurance actuelle</p>
+            <h2>Avez-vous actuellement une assurance santé ?</h2>
+            <div class="option-list" data-option-group="current-insurance">
+              <label class="option-pill"><input type="radio" name="hasCurrentInsurance" value="yes" /><span>Oui</span></label>
+              <label class="option-pill"><input type="radio" name="hasCurrentInsurance" value="no" /><span>Non</span></label>
+            </div>
+            <div class="quiz-conditional" id="current-insurance-block">
+              <div class="quiz-field">
+                <label for="q-current-insurer">Assureur actuel</label>
+                <input type="text" id="q-current-insurer" name="currentInsurer" />
+              </div>
+              <div class="quiz-field">
+                <label for="q-renewal-date">Date de renouvellement</label>
+                <input type="text" id="q-renewal-date" name="renewalDate" placeholder="ex. Mars 2027" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5 — Where covered -->
+          <div class="quiz-step" data-step="5">
+            <p class="quiz-step-eyebrow">Zone de couverture</p>
+            <h2>Où souhaitez-vous être couvert ?</h2>
+            <p class="quiz-step-hint">C'est probablement la question la plus importante.</p>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="coverageArea" value="cambodia" /><span>Cambodge uniquement</span></label>
+              <label class="option-pill"><input type="radio" name="coverageArea" value="sea" /><span>Asie du Sud-Est</span></label>
+              <label class="option-pill"><input type="radio" name="coverageArea" value="worldwide-ex-usa" /><span>Monde entier hors USA</span></label>
+              <label class="option-pill"><input type="radio" name="coverageArea" value="worldwide-inc-usa" /><span>Monde entier y compris USA</span></label>
+            </div>
+          </div>
+
+          <!-- Step 6 — Benefits -->
+          <div class="quiz-step" data-step="6">
+            <p class="quiz-step-eyebrow">Garanties</p>
+            <h2>Quel niveau de garanties souhaitez-vous ?</h2>
+            <div class="option-list">
+              <label class="option-pill"><input type="radio" name="benefitsTier" value="hospitalisation" /><span>Hospitalisation</span></label>
+              <label class="option-pill"><input type="radio" name="benefitsTier" value="hosp-outpatient" /><span>Hospitalisation + Ambulatoire</span></label>
+              <label class="option-pill"><input type="radio" name="benefitsTier" value="hosp-outpatient-maternity" /><span>Hospitalisation + Ambulatoire + Maternité</span></label>
+              <label class="option-pill"><input type="radio" name="benefitsTier" value="hosp-outpatient-maternity-dental-vision" /><span>Hospitalisation + Ambulatoire + Maternité + Dentaire + Optique</span></label>
+            </div>
+          </div>
+
+          <!-- Step 7 — Medical questions -->
+          <div class="quiz-step" data-step="7">
+            <p class="quiz-step-eyebrow">Questions médicales</p>
+            <h2>Avez-vous été diagnostiqué(e) ou traité(e) au cours des 5 dernières années pour :</h2>
+            <div class="option-list" data-option-group="medical">
+              <label class="option-pill"><input type="checkbox" name="medical" value="diabetes" /><span>Diabète</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="heart" /><span>Maladie cardiaque</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="cancer" /><span>Cancer</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="bloodpressure" /><span>Hypertension artérielle</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="asthma" /><span>Asthme</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="none" id="medical-none" /><span>Aucune des réponses ci-dessus</span></label>
+              <label class="option-pill"><input type="checkbox" name="medical" value="prefer-not-to-say" id="medical-prefer-not" /><span>Je préfère ne pas répondre pour l'instant</span></label>
+            </div>
+          </div>
+
+          <!-- Step 8 — How did you hear about us -->
+          <div class="quiz-step" data-step="8">
+            <p class="quiz-step-eyebrow">Dernière étape</p>
+            <h2>Comment avez-vous entendu parler de nous ?</h2>
+            <div class="quiz-field">
+              <label for="q-source">Sélectionnez une option</label>
+              <select id="q-source" name="source">
+                <option value="">Sélectionnez une option</option>
+                <option>Recherche Google</option>
+                <option>Facebook</option>
+                <option>LinkedIn</option>
+                <option>Recommandation d'un ami/collègue</option>
+                <option>Déjà client</option>
+                <option>Autre</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Done state -->
+          <div class="quiz-step" data-step="done">
+            <div class="quiz-done">
+              <svg width="52" height="52" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"></circle><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <h2>Merci — c'est tout !</h2>
+              <p>Un courtier examinera vos réponses et vous recontactera sous 24 heures avec des options sur mesure. (Note : ceci est un aperçu — aucune donnée n'a été réellement envoyée.)</p>
+            </div>
+          </div>
+
+          <div class="quiz-nav" id="quiz-nav">
+            <button type="button" class="btn btn-outline-dark" id="quiz-back">Retour</button>
+            <span class="quiz-nav-spacer"></span>
+            <button type="button" class="btn btn-gold" id="quiz-next">Suivant</button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+</QuizLayout>
+
+<script>
+  (function () {
+    var steps = Array.prototype.slice.call(document.querySelectorAll('.quiz-step'));
+    var totalSteps = steps.length - 1; // exclude the "done" step from the count
+    var currentIndex = 0; // index into steps[]
+
+    var progressFill = document.getElementById('quiz-progress-fill');
+    var progressLabel = document.getElementById('quiz-progress-label');
+    var backBtn = document.getElementById('quiz-back');
+    var nextBtn = document.getElementById('quiz-next');
+    var navRow = document.getElementById('quiz-nav');
+
+    function renderStep() {
+      steps.forEach(function (el, i) { el.classList.toggle('is-active', i === currentIndex); });
+
+      var isDone = steps[currentIndex].dataset.step === 'done';
+      backBtn.style.visibility = (currentIndex === 0 || isDone) ? 'hidden' : 'visible';
+      navRow.style.display = isDone ? 'none' : 'flex';
+
+      var stepNum = Math.min(currentIndex + 1, totalSteps);
+      progressFill.style.width = (stepNum / totalSteps * 100) + '%';
+      progressLabel.textContent = 'Étape ' + stepNum + ' sur ' + totalSteps;
+
+      nextBtn.textContent = (currentIndex === totalSteps - 1) ? 'Envoyer' : 'Suivant';
+
+      document.querySelector('.quiz-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    nextBtn.addEventListener('click', function () {
+      if (currentIndex < steps.length - 1) {
+        currentIndex++;
+        renderStep();
+      }
+    });
+    backBtn.addEventListener('click', function () {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderStep();
+      }
+    });
+
+    // Selectable pill highlighting
+    document.querySelectorAll('.option-pill input').forEach(function (input) {
+      input.addEventListener('change', function () {
+        if (input.type === 'radio') {
+          document.querySelectorAll('input[name="' + input.name + '"]').forEach(function (sibling) {
+            sibling.closest('.option-pill').classList.toggle('is-selected', sibling.checked);
+          });
+        } else {
+          input.closest('.option-pill').classList.toggle('is-selected', input.checked);
+        }
+      });
+    });
+
+    // Conditional: Who needs cover -> Family members / Spouse DOB
+    var familyBlock = document.getElementById('family-members-block');
+    var familyList = document.getElementById('family-members-list');
+    var addFamilyBtn = document.getElementById('add-family-member');
+    var spouseBlock = document.getElementById('spouse-block');
+    var familyCount = 0;
+
+    function addFamilyMember() {
+      familyCount++;
+      var row = document.createElement('div');
+      row.className = 'family-member';
+      row.innerHTML =
+        '<button type="button" class="family-member-remove" aria-label="Supprimer">&times;</button>' +
+        '<div class="quiz-field"><label>Nom</label><input type="text" name="familyName' + familyCount + '"></div>' +
+        '<div class="quiz-row">' +
+          '<div class="quiz-field"><label>Date de naissance</label><input type="text" name="familyDob' + familyCount + '" placeholder="ex. 14/06/2010"></div>' +
+          '<div class="quiz-field"><label>Lien de parenté</label><input type="text" name="familyRelationship' + familyCount + '" placeholder="ex. Conjoint(e), Enfant"></div>' +
+        '</div>';
+      row.querySelector('.family-member-remove').addEventListener('click', function () { row.remove(); });
+      familyList.appendChild(row);
+    }
+
+    document.querySelectorAll('input[name="who"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        if (!radio.checked) return;
+
+        familyBlock.classList.toggle('is-visible', radio.value === 'family');
+        if (radio.value === 'family' && familyList.children.length === 0) addFamilyMember();
+
+        spouseBlock.classList.toggle('is-visible', radio.value === 'spouse');
+      });
+    });
+    addFamilyBtn.addEventListener('click', addFamilyMember);
+
+    // Conditional: current insurance yes -> show insurer/renewal fields
+    var currentInsuranceBlock = document.getElementById('current-insurance-block');
+    document.querySelectorAll('input[name="hasCurrentInsurance"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        currentInsuranceBlock.classList.toggle('is-visible', radio.value === 'yes' && radio.checked);
+      });
+    });
+
+    // Medical checkboxes: "None of the above" and "Prefer not to say" are
+    // mutually exclusive with the specific conditions, and with each other.
+    var medicalExclusive = [document.getElementById('medical-none'), document.getElementById('medical-prefer-not')];
+    var medicalOthers = Array.prototype.slice.call(document.querySelectorAll('input[name="medical"]'))
+      .filter(function (el) { return medicalExclusive.indexOf(el) === -1; });
+
+    medicalExclusive.forEach(function (exclusiveEl) {
+      exclusiveEl.addEventListener('change', function () {
+        if (exclusiveEl.checked) {
+          medicalOthers.forEach(function (el) {
+            el.checked = false;
+            el.closest('.option-pill').classList.remove('is-selected');
+            el.closest('.option-pill').classList.add('is-disabled');
+          });
+          medicalExclusive.forEach(function (other) {
+            if (other !== exclusiveEl) {
+              other.checked = false;
+              other.closest('.option-pill').classList.remove('is-selected');
+            }
+          });
+        } else {
+          medicalOthers.forEach(function (el) { el.closest('.option-pill').classList.remove('is-disabled'); });
+        }
+      });
+    });
+    medicalOthers.forEach(function (el) {
+      el.addEventListener('change', function () {
+        if (el.checked) {
+          medicalExclusive.forEach(function (exclusiveEl) {
+            exclusiveEl.checked = false;
+            exclusiveEl.closest('.option-pill').classList.remove('is-selected');
+          });
+        }
+      });
+    });
+
+    // Carry over name/email/phone handed off from the short form elsewhere
+    // on the site (?firstName=&lastName=&email=&phone=), so the person
+    // doesn't have to retype what they already gave us.
+    var params = new URLSearchParams(window.location.search);
+    ['firstName', 'lastName', 'email', 'phone'].forEach(function (key) {
+      var value = params.get(key);
+      if (value) {
+        var hidden = document.getElementById('hidden-' + key);
+        if (hidden) hidden.value = value;
+      }
+    });
+    var firstName = params.get('firstName');
+    if (firstName) {
+      var greetingEl = document.getElementById('quiz-greeting');
+      greetingEl.textContent = 'Bon retour, ' + firstName + '.';
+      greetingEl.classList.add('is-visible');
+    }
+
+    renderStep();
+  })();
+</script>
