@@ -16,9 +16,18 @@ interface Props {
   /** Override for the header's "Get a free quote" button, for pages
    * with their own on-page quote form (e.g. "#form" on Claims). */
   quoteHref?: string;
+  /** Keep this page out of search results (e.g. 404, thank-you pages).
+   * Also drops canonical/hreflang, which shouldn't point at such pages. */
+  noindex?: boolean;
 }
 
-const { lang, title, description, altHref, ogImage, quoteHref } = Astro.props;
+const { lang, title, description, altHref, ogImage, quoteHref, noindex = false } = Astro.props;
+
+// The workers.dev preview must never be indexed. Once `site` in
+// astro.config.mjs points at the real domain, indexing turns on
+// automatically for every page that doesn't opt out with `noindex`.
+const isStaging = !Astro.site || Astro.site.hostname.endsWith('.workers.dev');
+const robots = isStaging || noindex ? 'noindex, nofollow' : 'index, follow';
 
 const canonicalPath = Astro.url.pathname;
 const canonicalUrl = new URL(canonicalPath, Astro.site).toString();
@@ -36,14 +45,20 @@ const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/ag
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="noindex, nofollow" />
-    <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang="en" href={enUrl} />
-    <link rel="alternate" hreflang="fr" href={frUrl} />
-    <link rel="alternate" hreflang="x-default" href={enUrl} />
+    <meta name="robots" content={robots} />
+    {!noindex && (
+      <>
+        <link rel="canonical" href={canonicalUrl} />
+        <link rel="alternate" hreflang="en" href={enUrl} />
+        <link rel="alternate" hreflang="fr" href={frUrl} />
+        <link rel="alternate" hreflang="x-default" href={enUrl} />
+      </>
+    )}
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" type="image/svg+xml" href="/assets/logo-mark.svg" />
 
     <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'fr_FR'} />
+    <meta property="og:locale:alternate" content={lang === 'en' ? 'fr_FR' : 'en_US'} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -75,7 +90,7 @@ const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/ag
           hasMap: 'https://www.google.com/maps/search/?api=1&query=11.56210306704514,104.93555989205815',
           address: {
             '@type': 'PostalAddress',
-            streetAddress: 'Sisowat Quay',
+            streetAddress: '313 Sisowath Quay',
             addressLocality: 'Daun Penh',
             addressRegion: 'Phnom Penh',
             postalCode: '12300',
@@ -87,7 +102,13 @@ const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/ag
           '@id': 'https://www.agcambodia.com/#organization',
           name: 'AG Insurance Broker (Cambodia) Co., Ltd.',
           legalName: 'AG Insurance Broker (Cambodia) Co., Ltd.',
+          alternateName: ['AG Cambodia', 'AG Insurance Broker'],
           url: 'https://www.agcambodia.com',
+          logo: new URL('/assets/logo-color.png', Astro.site).toString(),
+          image: ogImage ?? defaultOgImage,
+          foundingDate: '2006',
+          areaServed: { '@type': 'Country', name: 'Cambodia' },
+          knowsLanguage: ['en', 'fr'],
           sameAs: [
             'https://www.facebook.com/insurancecambodia',
             'https://t.me/AGCambodia',
@@ -96,10 +117,10 @@ const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/ag
           email: 'info@agcambodia.com',
           telephone: '+855 23 998 018',
           priceRange: '$$$',
-          openingHours: ['Monday,Tuesday,Wednesday,Thursday,Friday 09:00-17:00', 'Saturday 09:00-12:00'],
+          openingHours: ['Mo-Fr 09:00-17:00', 'Sa 09:00-12:00'],
           address: {
             '@type': 'PostalAddress',
-            streetAddress: 'Sisowat Quay',
+            streetAddress: '313 Sisowath Quay',
             addressLocality: 'Daun Penh',
             addressRegion: 'Phnom Penh',
             postalCode: '12300',
@@ -123,8 +144,18 @@ const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/ag
             'AG Cambodia provides international and local insurance solutions since 2006. We help expatriates, families, and businesses in Cambodia find the best health, property, and travel insurance with trusted partners.',
           serviceType: 'Insurance brokerage, health insurance, property insurance, travel insurance',
           provider: { '@id': 'https://www.agcambodia.com/#organization' },
-          areaServed: 'KH',
+          areaServed: { '@type': 'Country', name: 'Cambodia' },
         },
+        ...(noindex ? [] : [{
+          '@type': 'WebPage',
+          '@id': canonicalUrl + '#webpage',
+          url: canonicalUrl,
+          name: title,
+          description,
+          inLanguage: lang === 'en' ? 'en-US' : 'fr-FR',
+          isPartOf: { '@id': 'https://www.agcambodia.com/#website' },
+          about: { '@id': 'https://www.agcambodia.com/#organization' },
+        }]),
       ],
     })} />
   </head>
