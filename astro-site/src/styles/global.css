@@ -536,12 +536,15 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 }
 .partners-track li {
   flex: 0 0 auto;
-  padding: 0 40px;
-  color: var(--gray-400);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.1rem;
-  white-space: nowrap;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+}
+.partners-track img {
+  height: 64px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
 }
 @keyframes partners-scroll {
   from { transform: translateX(0); }
