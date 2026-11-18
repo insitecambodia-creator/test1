@@ -7,3 +7,6 @@ not_found_handling = "404-page"
 
 [observability]
 enabled = true
+
+# Enables preview builds for pull requests (`npx wrangler preview`).
+[previews]
