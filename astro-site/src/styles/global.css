@@ -505,28 +505,50 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 }
 .step p { color: var(--gray-600); }
 
-/* ===================== Partners band ===================== */
-.partners-band {
-  background: var(--navy-800);
-  padding: 64px 0;
-  text-align: center;
+/* ===================== Partners ===================== */
+.partners-section h2 {
+  color: var(--ink-900);
+  padding-bottom: 20px;
+  border-bottom: 1px dashed var(--gold-500);
+  max-width: none;
 }
-.partners-mark {
-  color: var(--blue-300);
+.partners-copy {
+  margin-top: 28px;
+  max-width: 68ch;
   display: flex;
-  justify-content: center;
-  margin: 18px 0 30px;
+  flex-direction: column;
+  gap: 14px;
 }
-.partners-list {
+.partners-copy p:first-child { color: var(--ink-700); }
+.partners-copy p { color: var(--gray-600); font-size: 0.96rem; }
+
+.partners-marquee {
+  margin-top: 48px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.partners-track {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 14px 28px;
+  flex-wrap: nowrap;
+  width: max-content;
+  animation: partners-scroll 32s linear infinite;
 }
-.partners-list li {
-  color: rgba(255,255,255,0.55);
+.partners-track li {
+  flex: 0 0 auto;
+  padding: 0 40px;
+  color: var(--gray-400);
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+@keyframes partners-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .partners-track { animation: none; }
 }
 
 /* ===================== Team section ===================== */
