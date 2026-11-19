@@ -470,6 +470,11 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 }
 .cov-card-cta h3 { color: var(--white); font-size: 1.2rem; }
 .cov-card-cta p { color: rgba(255,255,255,0.65); }
+.cov-card-cta { align-items: center; text-align: center; gap: 4px; }
+.cov-card-cta .btn { align-self: stretch; justify-content: center; margin-top: 8px; }
+.btn-telegram { background: #7dd3f5; color: var(--navy-800); border-color: #7dd3f5; display: inline-flex; align-items: center; gap: 8px; }
+.btn-telegram:hover { background: #a5e1f8; border-color: #a5e1f8; }
+.team-body { color: var(--gray-600); font-size: 0.95rem; margin: 16px 0 24px; }
 
 /* ===================== Steps ===================== */
 .steps {
