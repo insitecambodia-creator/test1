@@ -532,23 +532,27 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   display: flex;
   flex-wrap: nowrap;
   width: max-content;
-  animation: partners-scroll 32s linear infinite;
+  animation: partners-scroll 28s linear infinite;
 }
-.partners-track li {
+.partners-set {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.partners-set li {
   flex: 0 0 auto;
-  padding: 0 32px;
+  padding: 0 48px;
   display: flex;
   align-items: center;
 }
-.partners-track img {
-  height: 64px;
+.partners-set img {
+  height: 104px;
   width: auto;
-  max-width: 180px;
+  max-width: 260px;
   object-fit: contain;
 }
 @keyframes partners-scroll {
   from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
+  to { transform: translateX(-50%); }
 }
 @media (prefers-reduced-motion: reduce) {
   .partners-track { animation: none; }
