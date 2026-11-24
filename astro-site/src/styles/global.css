@@ -165,8 +165,9 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   gap: 24px;
   height: 76px;
 }
-.logo { display: flex; align-items: center; color: var(--white); }
-.logo-img { height: 34px; width: auto; }
+.logo { display: flex; align-items: center; flex-shrink: 0; color: var(--white); }
+.logo-img { height: 44px; width: auto; }
+.site-footer .logo-img { height: 34px; }
 
 .main-nav { display: flex; align-items: center; gap: 32px; }
 .main-nav a {
@@ -1131,3 +1132,12 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   border: 1px solid var(--border);
 }
 .map-embed iframe { display: block; }
+
+/* Small phones: keep the enlarged header logo from pushing the actions off-screen */
+@media (max-width: 480px) {
+  .header-inner { gap: 12px; }
+  .site-header .logo-img { height: 32px; }
+  .header-phone { display: none; }
+  .header-actions { gap: 8px; }
+  .header-actions .btn.btn-sm { padding: 8px 12px; font-size: 0.78rem; }
+}
