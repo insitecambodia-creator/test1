@@ -246,15 +246,6 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 .nav-dropdown-menu a:hover { background: var(--cream-50); color: var(--blue-700); }
 
 .header-actions { display: flex; align-items: center; gap: 18px; }
-.header-phone {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  color: rgba(255,255,255,0.85);
-  font-size: 0.88rem;
-  font-weight: 500;
-}
-.header-phone:hover { color: var(--white); }
 .lang-switch {
   display: inline-flex;
   align-items: center;
@@ -1070,7 +1061,6 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 
 @media (max-width: 760px) {
   .main-nav { display: none; }
-  .header-phone span { display: none; }
   .nav-toggle { display: flex; }
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .stat { padding: 14px; gap: 10px; }
@@ -1133,11 +1123,9 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 }
 .map-embed iframe { display: block; }
 
-/* Small phones: keep the enlarged header logo from pushing the actions off-screen */
+/* Small phones: slightly smaller header logo */
 @media (max-width: 480px) {
   .header-inner { gap: 12px; }
   .site-header .logo-img { height: 32px; }
-  .header-phone { display: none; }
   .header-actions { gap: 8px; }
-  .header-actions .btn.btn-sm { padding: 8px 12px; font-size: 0.78rem; }
 }
