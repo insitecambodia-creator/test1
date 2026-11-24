@@ -167,6 +167,9 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 }
 .logo { display: flex; align-items: center; flex-shrink: 0; color: var(--white); }
 .logo-img { height: 44px; width: auto; }
+.site-header .logo-img { height: 60px; }
+/* Full-width navbar: logo far left, actions far right */
+.site-header .header-inner { max-width: none; padding: 0 clamp(20px, 3vw, 56px); }
 .site-footer .logo-img { height: 34px; }
 
 .main-nav { display: flex; align-items: center; gap: 32px; }
@@ -334,7 +337,7 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   color: rgba(255,255,255,0.72);
   font-size: 1.05rem;
 }
-.hero h1 { color: var(--white); font-size: clamp(2.2rem, 4vw, 3.1rem); }
+.hero h1 { color: var(--white); font-size: clamp(2.4rem, 5vw, 3.9rem); line-height: 1.1; }
 .hero-ctas { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
 .hero-rating {
   display: flex;
@@ -1060,8 +1063,6 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 }
 
 @media (max-width: 760px) {
-  .main-nav { display: none; }
-  .nav-toggle { display: flex; }
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .stat { padding: 14px; gap: 10px; }
   .stat-icon { width: 32px; height: 32px; }
@@ -1075,8 +1076,10 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   h2 { max-width: none; }
 }
 
-/* Mobile nav drawer */
-@media (max-width: 760px) {
+/* Mobile nav drawer (used up to tablet width so the full-width navbar never crowds) */
+@media (max-width: 1080px) {
+  .main-nav { display: none; }
+  .nav-toggle { display: flex; }
   .main-nav.is-open {
     display: flex;
     position: absolute;
@@ -1126,6 +1129,6 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 /* Small phones: slightly smaller header logo */
 @media (max-width: 480px) {
   .header-inner { gap: 12px; }
-  .site-header .logo-img { height: 32px; }
+  .site-header .logo-img { height: 40px; }
   .header-actions { gap: 8px; }
 }
