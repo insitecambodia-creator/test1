@@ -1,0 +1,30 @@
+---
+import type { Lang } from '../../i18n/ui';
+import { formatDate, postHref, type BlogPost } from '../../lib/blog';
+
+interface Props {
+  post: BlogPost;
+  lang: Lang;
+}
+
+const { post, lang } = Astro.props;
+const href = postHref(post);
+const otherLang = post.lang !== lang;
+---
+
+<article class="post-card">
+  <a href={href} class="post-card-image" tabindex="-1" aria-hidden="true">
+    {post.image
+      ? <img src={post.image} alt="" loading="lazy" decoding="async" />
+      : <span class="post-card-placeholder"><img src="/assets/logo-mark.svg" alt="" /></span>}
+  </a>
+  <div class="post-card-body">
+    <p class="post-meta">
+      <time datetime={post.date}>{formatDate(post.date, lang)}</time>
+      {post.categories[0] && <span> · {post.categories[0]}</span>}
+      {otherLang && <span class="post-lang" lang={post.lang}>{post.lang.toUpperCase()}</span>}
+    </p>
+    <h3><a href={href} hreflang={otherLang ? post.lang : undefined}>{post.title}</a></h3>
+    <p class="post-card-excerpt">{post.excerpt}</p>
+  </div>
+</article>

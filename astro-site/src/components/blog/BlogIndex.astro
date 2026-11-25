@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from './PostCard.astro';
+import type { Lang } from '../../i18n/ui';
+import { allPosts, postsIn } from '../../lib/blog';
+import '../../styles/blog.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const own = postsIn(lang);
+// French readers also get the English articles, in their own section,
+// since most of the blog is only written in English.
+const others = lang === 'fr' ? allPosts.filter((p) => p.lang !== 'fr') : [];
+
+const copy = {
+  en: {
+    title: 'Blog: Insurance, Health and Living in Cambodia | AG Cambodia',
+    description:
+      'Guides and news from AG Cambodia on health insurance, vehicle and property cover, visas, laws and everyday life for expats and businesses in Cambodia.',
+    crumb: 'Home',
+    eyebrow: 'Blog',
+    h1: 'Insurance and life in Cambodia',
+    lead: 'Practical guides from our team on health cover, vehicles, property, visas and the rules that matter when you live or do business in Cambodia.',
+    others: '',
+  },
+  fr: {
+    title: 'Blog : assurance, santé et vie au Cambodge | AG Cambodia',
+    description:
+      "Guides et actualités d'AG Cambodia sur l'assurance santé, auto et habitation, les visas, les lois et la vie quotidienne des expatriés et entreprises au Cambodge.",
+    crumb: 'Accueil',
+    eyebrow: 'Blog',
+    h1: 'Assurance et vie au Cambodge',
+    lead: "Les guides pratiques de notre équipe sur l'assurance santé, les véhicules, l'habitation, les visas et les règles à connaître pour vivre ou entreprendre au Cambodge.",
+    others: 'Articles en anglais',
+  },
+}[lang];
+---
+
+<BaseLayout lang={lang} title={copy.title} description={copy.description}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href={lang === 'en' ? '/' : '/fr/'}>{copy.crumb}</a>
+        <span aria-hidden="true">/</span>
+        <span>Blog</span>
+      </nav>
+      <p class="eyebrow eyebrow-light">{copy.eyebrow}</p>
+      <h1>{copy.h1}</h1>
+      <p class="hero-lead">{copy.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="post-grid">
+        {own.map((post) => <PostCard post={post} lang={lang} />)}
+      </div>
+      {others.length > 0 && (
+        <>
+          <h2 class="post-grid-heading">{copy.others}</h2>
+          <div class="post-grid">
+            {others.map((post) => <PostCard post={post} lang={lang} />)}
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+</BaseLayout>

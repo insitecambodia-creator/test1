@@ -1,0 +1,13 @@
+# Blog URLs from the WordPress site. Posts themselves keep their exact
+# WordPress URLs (/post-slug/ and /fr/post-slug/), so only aliases are here.
+/blog /blogs/ 301
+/blog/ /blogs/ 301
+/fr/blog /fr/blogs/ 301
+/fr/blog/ /fr/blogs/ 301
+# Old slugs WordPress still redirected
+/doctor_sebban/ /doctor_sebban_cabinet-medical/ 301
+/cambodia-visa-guide-2026-tourist-business-retirement-and-long-stay-visas-explained/ /cambodia-visa-guide-2026/ 301
+# French posts, in case they were reachable without the /fr/ prefix
+/exigences-en-matiere-dassurance-sante-pour-voyager-au-cambodge/ /fr/exigences-en-matiere-dassurance-sante-pour-voyager-au-cambodge/ 301
+/lassurance-pour-les-vehicules-sera-bientot-obligatoire/ /fr/lassurance-pour-les-vehicules-sera-bientot-obligatoire/ 301
+/prendre-sa-retraite-au-cambodge-un-guide-pour-les-expatries/ /fr/prendre-sa-retraite-au-cambodge-un-guide-pour-les-expatries/ 301

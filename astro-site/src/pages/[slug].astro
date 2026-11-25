@@ -1,0 +1,14 @@
+---
+/* English blog posts, kept at their WordPress URLs (/post-slug/).
+ * Static pages in this folder take precedence over this route. */
+import BlogPostPage from '../components/blog/BlogPostPage.astro';
+import { postsIn, type BlogPost } from '../lib/blog';
+
+export function getStaticPaths() {
+  return postsIn('en').map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: BlogPost };
+---
+
+<BlogPostPage post={post} />
