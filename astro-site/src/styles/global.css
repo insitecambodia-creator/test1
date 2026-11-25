@@ -75,7 +75,10 @@ h1, h2, h3 {
   color: var(--ink-900);
 }
 h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); margin-top: 10px; max-width: 30ch; }
-h3 { font-size: 1.05rem; margin-bottom: 8px; }
+h3 { font-size: 1.05rem; margin-bottom: 12px; }
+/* Breathing room between a heading and the text that follows it */
+.article-copy h2 { margin-bottom: 18px; }
+h2 + h3 { margin-top: 18px; }
 
 .text-gold { color: var(--blue-500); }
 .text-gold-ink { color: var(--blue-600); }
