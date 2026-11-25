@@ -22,18 +22,35 @@ const backHref = '/fr/health-insurance-cambodia/long-term-insurance-cambodia-for
 
         <form id="quiz-form">
 
-          <!-- Transmis depuis le formulaire court du site, via les
-               paramètres d'URL (?firstName=&lastName=&email=&phone=). -->
-          <input type="hidden" name="firstName" id="hidden-firstName" />
-          <input type="hidden" name="lastName" id="hidden-lastName" />
-          <input type="hidden" name="email" id="hidden-email" />
-          <input type="hidden" name="phone" id="hidden-phone" />
 
           <!-- Step 1 — About Yourself -->
           <div class="quiz-step is-active" data-step="1">
             <p class="quiz-greeting" id="quiz-greeting"></p>
             <p class="quiz-step-eyebrow">À propos de vous</p>
             <h2>Parlez-nous un peu de vous</h2>
+            <!-- Contact details. Pre-filled (and hidden) when they arrive in the
+                 link from the short form (?firstName=&lastName=&email=&phone=);
+                 otherwise the visitor fills them in here. -->
+            <div class="quiz-row">
+              <div class="quiz-field" data-contact="firstName">
+                <label for="contact-firstName">Prénom</label>
+                <input type="text" id="contact-firstName" name="firstName" autocomplete="given-name" required />
+              </div>
+              <div class="quiz-field" data-contact="lastName">
+                <label for="contact-lastName">Nom</label>
+                <input type="text" id="contact-lastName" name="lastName" autocomplete="family-name" required />
+              </div>
+            </div>
+            <div class="quiz-row">
+              <div class="quiz-field" data-contact="email">
+                <label for="contact-email">E-mail</label>
+                <input type="email" id="contact-email" name="email" autocomplete="email" required />
+              </div>
+              <div class="quiz-field" data-contact="phone">
+                <label for="contact-phone">Téléphone (WhatsApp idéalement)</label>
+                <input type="tel" id="contact-phone" name="phone" autocomplete="tel" required />
+              </div>
+            </div>
             <div class="quiz-field">
               <label for="q-nationality">Pays de nationalité</label>
               <select id="q-nationality" name="nationality">
@@ -71,7 +88,7 @@ const backHref = '/fr/health-insurance-cambodia/long-term-insurance-cambodia-for
             </div>
             <div class="quiz-field">
               <label for="q-dob">Date de naissance (ou âge)</label>
-              <input type="text" id="q-dob" name="dob" placeholder="ex. 14/06/1985 ou 40" />
+              <input type="text" id="q-dob" name="dob" required placeholder="ex. 14/06/1985 ou 40" />
             </div>
           </div>
 
@@ -250,6 +267,17 @@ const backHref = '/fr/health-insurance-cambodia/long-term-insurance-cambodia-for
 
     nextBtn.addEventListener('click', function () {
       if (submitting) return;
+      // Check the required fields of the step being left.
+      var invalid = Array.prototype.find.call(
+        steps[currentIndex].querySelectorAll('input, select, textarea'),
+        function (el) { return !el.checkValidity(); }
+      );
+      if (invalid) {
+        var wrapper = invalid.closest('[data-contact]');
+        if (wrapper) wrapper.hidden = false; // e.g. a malformed email from the link
+        invalid.reportValidity();
+        return;
+      }
       // Last question: send the answers to n8n, then show the thank-you step.
       if (currentIndex === totalSteps - 1) {
         submitting = true;
@@ -377,11 +405,13 @@ const backHref = '/fr/health-insurance-cambodia/long-term-insurance-cambodia-for
     // doesn't have to retype what they already gave us.
     var params = new URLSearchParams(window.location.search);
     ['firstName', 'lastName', 'email', 'phone'].forEach(function (key) {
-      var value = params.get(key);
-      if (value) {
-        var hidden = document.getElementById('hidden-' + key);
-        if (hidden) hidden.value = value;
-      }
+      var value = (params.get(key) || '').trim();
+      if (!value) return;
+      var input = document.getElementById('contact-' + key);
+      if (!input) return;
+      input.value = value;
+      // Already known: no need to ask again.
+      input.closest('[data-contact]').hidden = true;
     });
     var firstName = params.get('firstName');
     if (firstName) {

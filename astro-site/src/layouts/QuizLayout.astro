@@ -144,6 +144,8 @@ const { lang, title, description, backHref, skipToContent, closeLabel } = Astro.
   .quiz-field input[type="text"],
   .quiz-field input[type="date"],
   .quiz-field input[type="number"],
+  .quiz-field input[type="email"],
+  .quiz-field input[type="tel"],
   .quiz-field select,
   .quiz-field textarea {
     width: 100%;
@@ -161,6 +163,8 @@ const { lang, title, description, backHref, skipToContent, closeLabel } = Astro.
     outline-offset: 1px;
     border-color: var(--blue-500);
   }
+  .quiz-field[hidden] { display: none; }
+  .quiz-row:not(:has(> .quiz-field:not([hidden]))) { display: none; }
   .quiz-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 500px) { .quiz-row { grid-template-columns: 1fr; } }
 
