@@ -1132,3 +1132,9 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   .site-header .logo-img { height: 40px; }
   .header-actions { gap: 8px; }
 }
+
+/* Blue section (e.g. "Why choose AG" on the employee page) */
+.section-blue { background: linear-gradient(160deg, var(--blue-700), var(--navy-700)); }
+.section-blue h2 { color: var(--white); }
+.section-blue .article-copy p { color: rgba(255,255,255,0.82); }
+.section-blue .peril-card { background: var(--white); border-color: transparent; }
