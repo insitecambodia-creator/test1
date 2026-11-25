@@ -1141,3 +1141,4 @@ h2 + h3 { margin-top: 18px; }
 .section-blue h2 { color: var(--white); }
 .section-blue .article-copy p { color: rgba(255,255,255,0.82); }
 .section-blue .peril-card { background: var(--white); border-color: transparent; }
+.plan-card-desc + .plan-card-desc { margin-top: 12px; }
