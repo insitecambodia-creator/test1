@@ -19,9 +19,14 @@ interface Props {
   /** Keep this page out of search results (e.g. 404, thank-you pages).
    * Also drops canonical/hreflang, which shouldn't point at such pages. */
   noindex?: boolean;
+  /** Set to false on pages with no translated counterpart (e.g. a blog
+   * post that only exists in one language), so no hreflang is emitted. */
+  hreflang?: boolean;
+  /** og:type, e.g. "article" for blog posts. */
+  ogType?: string;
 }
 
-const { lang, title, description, altHref, ogImage, quoteHref, noindex = false } = Astro.props;
+const { lang, title, description, altHref, ogImage, quoteHref, noindex = false, hreflang = true, ogType = 'website' } = Astro.props;
 
 // The workers.dev preview must never be indexed. Once `site` in
 // astro.config.mjs points at the real domain, indexing turns on
@@ -49,9 +54,13 @@ const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/ag
     {!noindex && (
       <>
         <link rel="canonical" href={canonicalUrl} />
-        <link rel="alternate" hreflang="en" href={enUrl} />
-        <link rel="alternate" hreflang="fr" href={frUrl} />
-        <link rel="alternate" hreflang="x-default" href={enUrl} />
+        {hreflang && (
+          <>
+            <link rel="alternate" hreflang="en" href={enUrl} />
+            <link rel="alternate" hreflang="fr" href={frUrl} />
+            <link rel="alternate" hreflang="x-default" href={enUrl} />
+          </>
+        )}
       </>
     )}
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -59,7 +68,7 @@ const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/ag
 
     <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'fr_FR'} />
     <meta property="og:locale:alternate" content={lang === 'en' ? 'fr_FR' : 'en_US'} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -158,6 +167,7 @@ const defaultOgImage = 'https://www.agcambodia.com/wp-content/uploads/2024/03/ag
         }]),
       ],
     })} />
+    <slot name="head" />
   </head>
   <body>
     <Header lang={lang} altHref={altHref} quoteHref={quoteHref} />

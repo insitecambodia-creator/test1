@@ -25,6 +25,7 @@ export const ui = {
     'nav.claims': 'Claims',
     'nav.aboutUs': 'About Us',
     'nav.contact': 'Contact',
+    'nav.blog': 'Blog',
     'nav.getQuote': 'Get a free quote',
     'nav.toggleMenu': 'Toggle menu',
     'footer.tagline':
@@ -37,6 +38,8 @@ export const ui = {
     'footer.contactUs': 'Contact Us',
     'footer.address': 'Sisowath Quay, Daun Penh, Phnom Penh 12300, Cambodia',
     'footer.hours': 'Mon–Fri 9:00–17:00, claims 24/7',
+    'footer.latestPosts': 'Latest from the blog',
+    'footer.allPosts': 'All articles',
     'footer.rights': 'AG Cambodia. All rights reserved.',
     'footer.privacy': 'Privacy Policy',
     'footer.terms': 'Terms of Service',
@@ -58,6 +61,7 @@ export const ui = {
     'nav.claims': 'Sinistres',
     'nav.aboutUs': 'À Propos',
     'nav.contact': 'Contact',
+    'nav.blog': 'Blog',
     'nav.getQuote': 'Devis gratuit',
     'nav.toggleMenu': 'Menu',
     'footer.tagline':
@@ -70,6 +74,8 @@ export const ui = {
     'footer.contactUs': 'Nous Contacter',
     'footer.address': 'Sisowath Quay, Daun Penh, Phnom Penh 12300, Cambodge',
     'footer.hours': 'Lun–Ven 9h00–17h00, sinistres 24/7',
+    'footer.latestPosts': 'Derniers articles du blog',
+    'footer.allPosts': 'Tous les articles',
     'footer.rights': 'AG Cambodia. Tous droits réservés.',
     'footer.privacy': 'Politique de confidentialité',
     'footer.terms': "Conditions d'utilisation",
