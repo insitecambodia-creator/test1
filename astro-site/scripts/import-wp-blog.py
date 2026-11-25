@@ -126,6 +126,33 @@ def clean(raw: str, title: str) -> str:
     return c.strip()
 
 
+LOCAL_IMAGES = Path(__file__).resolve().parent.parent / 'public' / 'blog-images'
+WP_UPLOAD = re.compile(r'https://www\.agcambodia\.com/wp-content/uploads/(\d{4}/\d{2})/([^"\s,]+)')
+
+
+def local_url(url: str) -> str:
+    """WordPress upload URL -> /blog-images/... when a local copy exists
+    (see scripts/sync-blog-images.py), else the URL unchanged."""
+    m = WP_UPLOAD.fullmatch(url)
+    if not m:
+        return url
+    stem = re.sub(r'-\d+x\d+$', '', re.sub(r'\.[A-Za-z0-9]+$', '', m.group(2)))
+    found = sorted((LOCAL_IMAGES / m.group(1)).glob(stem + '.*')) if (LOCAL_IMAGES / m.group(1)).is_dir() else []
+    return f'/blog-images/{m.group(1)}/{found[0].name}' if found else url
+
+
+def localize(h: str) -> str:
+    # Drop WordPress srcset/sizes on images that now point at a local copy.
+    def img(m):
+        tag = m.group(0)
+        src = re.search(r'src="([^"]+)"', tag)
+        if src and local_url(src.group(1)) != src.group(1):
+            tag = re.sub(r'\s(?:srcset|sizes)="[^"]*"', '', tag)
+        return tag
+    h = re.sub(r'<img[^>]*>', img, h)
+    return WP_UPLOAD.sub(lambda m: local_url(m.group(0)), h)
+
+
 def text_of(h: str) -> str:
     return re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', h))).strip()
 
@@ -184,10 +211,10 @@ def main(path: str):
             'modified': (it.findtext('wp:post_modified', namespaces=NS) or '')[:10],
             'categories': [cat_names.get(('category', c), c) for c in cats
                            if c not in ('uncategorized', 'non-classifiee')],
-            'image': thumb['url'] if thumb else None,
+            'image': local_url(thumb['url']) if thumb else None,
             'imageAlt': (thumb['alt'] or title) if thumb else None,
             'translation': PAIRS.get(slug) or next((k for k, v in PAIRS.items() if v == slug), None),
-            'html': body,
+            'html': localize(body),
         })
     posts.sort(key=lambda p: p['date'], reverse=True)
     out = Path(__file__).resolve().parent.parent / 'src' / 'data' / 'blog-posts.json'
