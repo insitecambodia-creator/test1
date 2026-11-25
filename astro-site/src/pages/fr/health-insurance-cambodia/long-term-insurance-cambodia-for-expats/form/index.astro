@@ -15,7 +15,6 @@ const backHref = '/fr/health-insurance-cambodia/long-term-insurance-cambodia-for
   <!-- Multi-step questionnaire -->
   <section class="quiz-wrap">
     <div class="container">
-      <p class="quiz-draft-note">Version de travail à usage interne — ce formulaire n'envoie rien pour le moment.</p>
 
       <div class="quiz-card">
         <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
@@ -196,9 +195,11 @@ const backHref = '/fr/health-insurance-cambodia/long-term-insurance-cambodia-for
             <div class="quiz-done">
               <svg width="52" height="52" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"></circle><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
               <h2>Merci — c'est tout !</h2>
-              <p>Un courtier examinera vos réponses et vous recontactera sous 24 heures avec des options sur mesure. (Note : ceci est un aperçu — aucune donnée n'a été réellement envoyée.)</p>
+              <p>Un courtier examinera vos réponses et vous recontactera sous 24 heures avec des options sur mesure.</p>
             </div>
           </div>
+
+          <p class="quiz-submit-error" id="quiz-submit-error" role="alert" hidden>Désolé, l'envoi de vos réponses a échoué. Vérifiez votre connexion et réessayez.</p>
 
           <div class="quiz-nav" id="quiz-nav">
             <button type="button" class="btn btn-outline-dark" id="quiz-back">Retour</button>
@@ -214,6 +215,8 @@ const backHref = '/fr/health-insurance-cambodia/long-term-insurance-cambodia-for
 </QuizLayout>
 
 <script>
+  import { submitHealthForm } from '../../../../../scripts/health-form-submit.js';
+
   (function () {
     var steps = Array.prototype.slice.call(document.querySelectorAll('.quiz-step'));
     var totalSteps = steps.length - 1; // exclude the "done" step from the count
@@ -241,7 +244,31 @@ const backHref = '/fr/health-insurance-cambodia/long-term-insurance-cambodia-for
       document.querySelector('.quiz-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    var form = document.getElementById('quiz-form');
+    var submitError = document.getElementById('quiz-submit-error');
+    var submitting = false;
+
     nextBtn.addEventListener('click', function () {
+      if (submitting) return;
+      // Last question: send the answers to n8n, then show the thank-you step.
+      if (currentIndex === totalSteps - 1) {
+        submitting = true;
+        submitError.hidden = true;
+        var nextLabel = nextBtn.textContent;
+        nextBtn.disabled = true;
+        nextBtn.textContent = 'Envoi…';
+        submitHealthForm(form, 'fr').then(function () {
+          currentIndex++;
+          renderStep();
+        }).catch(function () {
+          submitError.hidden = false;
+          nextBtn.textContent = nextLabel;
+        }).finally(function () {
+          submitting = false;
+          nextBtn.disabled = false;
+        });
+        return;
+      }
       if (currentIndex < steps.length - 1) {
         currentIndex++;
         renderStep();

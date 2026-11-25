@@ -15,7 +15,6 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
   <!-- Multi-step questionnaire -->
   <section class="quiz-wrap">
     <div class="container">
-      <p class="quiz-draft-note">Draft for internal review — this form does not submit anywhere yet.</p>
 
       <div class="quiz-card">
         <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
@@ -197,9 +196,11 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
             <div class="quiz-done">
               <svg width="52" height="52" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"></circle><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
               <h2>Thanks — that's everything!</h2>
-              <p>A broker will review your answers and get back to you within 24 hours with tailored options. (Draft note: this is a preview — no data was actually sent.)</p>
+              <p>A broker will review your answers and get back to you within 24 hours with tailored options.</p>
             </div>
           </div>
+
+          <p class="quiz-submit-error" id="quiz-submit-error" role="alert" hidden>Sorry, we couldn't send your answers. Please check your connection and try again.</p>
 
           <div class="quiz-nav" id="quiz-nav">
             <button type="button" class="btn btn-outline-dark" id="quiz-back">Back</button>
@@ -215,6 +216,8 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
 </QuizLayout>
 
 <script>
+  import { submitHealthForm } from '../../../../scripts/health-form-submit.js';
+
   (function () {
     var steps = Array.prototype.slice.call(document.querySelectorAll('.quiz-step'));
     var totalSteps = steps.length - 1; // exclude the "done" step from the count
@@ -242,7 +245,31 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
       document.querySelector('.quiz-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    var form = document.getElementById('quiz-form');
+    var submitError = document.getElementById('quiz-submit-error');
+    var submitting = false;
+
     nextBtn.addEventListener('click', function () {
+      if (submitting) return;
+      // Last question: send the answers to n8n, then show the thank-you step.
+      if (currentIndex === totalSteps - 1) {
+        submitting = true;
+        submitError.hidden = true;
+        var nextLabel = nextBtn.textContent;
+        nextBtn.disabled = true;
+        nextBtn.textContent = 'Sending…';
+        submitHealthForm(form, 'en').then(function () {
+          currentIndex++;
+          renderStep();
+        }).catch(function () {
+          submitError.hidden = false;
+          nextBtn.textContent = nextLabel;
+        }).finally(function () {
+          submitting = false;
+          nextBtn.disabled = false;
+        });
+        return;
+      }
       if (currentIndex < steps.length - 1) {
         currentIndex++;
         renderStep();
