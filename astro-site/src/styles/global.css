@@ -511,6 +511,9 @@ h2 + h3 { margin-top: 18px; }
   margin-bottom: 20px;
 }
 .step p { color: var(--gray-600); }
+.steps-4 { grid-template-columns: repeat(4, 1fr); gap: 28px; list-style: none; padding: 0; }
+.steps-4::before { left: 23px; right: calc(25% - 30px); }
+.steps-4 .step p { font-size: 0.94rem; }
 
 /* ===================== Partners ===================== */
 .partners-section h2 {
@@ -1055,6 +1058,7 @@ h2 + h3 { margin-top: 18px; }
   .cov-grid, .cov-grid-4 { grid-template-columns: repeat(2, 1fr); }
   .steps { grid-template-columns: 1fr; gap: 40px; }
   .steps::before { display: none; }
+  .steps-4 { grid-template-columns: repeat(2, 1fr); gap: 32px 28px; }
   .team-grid { grid-template-columns: 1fr; }
   .team-visual { max-width: 420px; }
   .testimonial-grid { grid-template-columns: 1fr; }
@@ -1071,6 +1075,7 @@ h2 + h3 { margin-top: 18px; }
   .stat-icon { width: 32px; height: 32px; }
   .stat-num { font-size: 1.5rem; }
   .cov-grid, .cov-grid-4, .cov-grid-2 { grid-template-columns: 1fr; }
+  .steps-4 { grid-template-columns: 1fr; }
   .hero-cards { grid-template-columns: 1fr 1fr; }
   .form-row { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
