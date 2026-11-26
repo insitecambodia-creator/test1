@@ -419,6 +419,19 @@ h2 + h3 { margin-top: 18px; }
 .coverage-group + .coverage-group { margin-top: 56px; }
 .coverage-group .cov-grid { margin-top: 20px; }
 .coverage-group-intro { max-width: 640px; color: var(--gray-600); margin-top: 10px; }
+/* Audience labels ("For Individuals" / "For Businesses"): dark slate pill */
+.coverage-group > .tag {
+  background: #4f5b62;
+  color: #fff;
+  border: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 9px 20px;
+  border-radius: 999px;
+}
+.coverage-group > .tag::before { display: none; }
 .cov-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -656,9 +669,33 @@ h2 + h3 { margin-top: 18px; }
   color: var(--gold-500);
   font-size: 1.15rem;
   padding-bottom: 10px;
-  border-bottom: 2px solid var(--gold-500);
   margin-bottom: 14px;
   display: inline-block;
+  position: relative;
+}
+.why-item h3::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--gold-500);
+  transform-origin: left center;
+}
+/* Entry motion: only when JS has armed it and the user allows motion */
+@media (prefers-reduced-motion: no-preference) {
+  .why-armed .why-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+    transition-delay: var(--d, 0s);
+  }
+  .why-armed .why-item h3::after {
+    transform: scaleX(0);
+    transition: transform .8s cubic-bezier(.2,.7,.2,1);
+    transition-delay: calc(var(--d, 0s) + .35s);
+  }
+  .why-armed.why-in .why-reveal { opacity: 1; transform: none; }
+  .why-armed.why-in .why-item h3::after { transform: scaleX(1); }
 }
 .why-item p { color: rgba(255,255,255,0.78); font-size: 0.96rem; line-height: 1.65; }
 @media (max-width: 760px) {
