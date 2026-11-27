@@ -201,3 +201,23 @@
     });
   }
 })();
+
+
+/* Why choose us: staggered scroll-in reveal */
+(function () {
+  var sec = document.querySelector('.why-section');
+  if (!sec || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var heads = sec.querySelectorAll('.eyebrow, h2, .why-intro');
+  var items = sec.querySelectorAll('.why-item');
+  var i = 0;
+  heads.forEach(function (el) { el.classList.add('why-reveal'); el.style.setProperty('--d', (i++ * 0.12) + 's'); });
+  items.forEach(function (el, n) { el.classList.add('why-reveal'); el.style.setProperty('--d', (0.4 + n * 0.15) + 's'); });
+  sec.classList.add('why-armed');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { sec.classList.add('why-in'); io.disconnect(); }
+    });
+  }, { threshold: 0.2 });
+  io.observe(sec);
+})();

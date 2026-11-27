@@ -75,7 +75,10 @@ h1, h2, h3 {
   color: var(--ink-900);
 }
 h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); margin-top: 10px; max-width: 30ch; }
-h3 { font-size: 1.05rem; margin-bottom: 8px; }
+h3 { font-size: 1.05rem; margin-bottom: 12px; }
+/* Breathing room between a heading and the text that follows it */
+.article-copy h2 { margin-bottom: 18px; }
+h2 + h3 { margin-top: 18px; }
 
 .text-gold { color: var(--blue-500); }
 .text-gold-ink { color: var(--blue-600); }
@@ -416,6 +419,19 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 .coverage-group + .coverage-group { margin-top: 56px; }
 .coverage-group .cov-grid { margin-top: 20px; }
 .coverage-group-intro { max-width: 640px; color: var(--gray-600); margin-top: 10px; }
+/* Audience labels ("For Individuals" / "For Businesses"): dark slate pill */
+.coverage-group > .tag {
+  background: #4f5b62;
+  color: #fff;
+  border: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 9px 20px;
+  border-radius: 999px;
+}
+.coverage-group > .tag::before { display: none; }
 .cov-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -527,7 +543,9 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 .partners-copy p { color: var(--gray-600); font-size: 0.96rem; }
 
 .partners-marquee {
-  margin-top: 48px;
+  /* Centred band the width of the content column, not edge to edge */
+  max-width: calc(var(--container) - 48px);
+  margin: 48px auto 0;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
@@ -544,14 +562,14 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 }
 .partners-set li {
   flex: 0 0 auto;
-  padding: 0 48px;
+  padding: 0 28px;
   display: flex;
   align-items: center;
 }
 .partners-set img {
-  height: 104px;
+  height: 170px;
   width: auto;
-  max-width: 260px;
+  max-width: 300px;
   object-fit: contain;
 }
 @keyframes partners-scroll {
@@ -560,6 +578,10 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .partners-track { animation: none; }
+}
+@media (max-width: 760px) {
+  .partners-set img { height: 120px; }
+  .partners-set li { padding: 0 16px; }
 }
 
 /* ===================== Team section ===================== */
@@ -653,9 +675,33 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   color: var(--gold-500);
   font-size: 1.15rem;
   padding-bottom: 10px;
-  border-bottom: 2px solid var(--gold-500);
   margin-bottom: 14px;
   display: inline-block;
+  position: relative;
+}
+.why-item h3::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--gold-500);
+  transform-origin: left center;
+}
+/* Entry motion: only when JS has armed it and the user allows motion */
+@media (prefers-reduced-motion: no-preference) {
+  .why-armed .why-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+    transition-delay: var(--d, 0s);
+  }
+  .why-armed .why-item h3::after {
+    transform: scaleX(0);
+    transition: transform .8s cubic-bezier(.2,.7,.2,1);
+    transition-delay: calc(var(--d, 0s) + .35s);
+  }
+  .why-armed.why-in .why-reveal { opacity: 1; transform: none; }
+  .why-armed.why-in .why-item h3::after { transform: scaleX(1); }
 }
 .why-item p { color: rgba(255,255,255,0.78); font-size: 0.96rem; line-height: 1.65; }
 @media (max-width: 760px) {
@@ -1132,3 +1178,10 @@ h3 { font-size: 1.05rem; margin-bottom: 8px; }
   .site-header .logo-img { height: 40px; }
   .header-actions { gap: 8px; }
 }
+
+/* Blue section (e.g. "Why choose AG" on the employee page) */
+.section-blue { background: linear-gradient(160deg, var(--blue-700), var(--navy-700)); }
+.section-blue h2 { color: var(--white); }
+.section-blue .article-copy p { color: rgba(255,255,255,0.82); }
+.section-blue .peril-card { background: var(--white); border-color: transparent; }
+.plan-card-desc + .plan-card-desc { margin-top: 12px; }
