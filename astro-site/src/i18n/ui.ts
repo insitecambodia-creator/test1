@@ -29,7 +29,7 @@ export const ui = {
     'nav.getQuote': 'Get a free quote',
     'nav.toggleMenu': 'Toggle menu',
     'footer.tagline':
-      'Your trusted insurance broker in Cambodia since 2006. Health, property, construction, motor and more — protecting businesses and individuals across the Kingdom.',
+      'Your trusted insurance broker in Cambodia since 2006. We cover health, property, construction, motor and more, protecting businesses and individuals across the Kingdom.',
     'footer.generalInsurance': 'General Insurance',
     'footer.healthInsurance': 'Health Insurance',
     'footer.individualHealth': 'Individual Health',
@@ -65,7 +65,7 @@ export const ui = {
     'nav.getQuote': 'Devis gratuit',
     'nav.toggleMenu': 'Menu',
     'footer.tagline':
-      "Votre courtier d'assurance de confiance au Cambodge depuis 2006. Santé, propriété, construction, automobile et plus — protégeant entreprises et particuliers à travers le Royaume.",
+      "Votre courtier d'assurance de confiance au Cambodge depuis 2006. Nous couvrons la santé, la propriété, la construction, l'automobile et plus encore, pour protéger entreprises et particuliers à travers le Royaume.",
     'footer.generalInsurance': 'Assurance Générale',
     'footer.healthInsurance': 'Assurance Santé',
     'footer.individualHealth': 'Santé Individuelle',
