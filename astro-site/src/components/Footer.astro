@@ -1,6 +1,8 @@
 ---
 import { useTranslations, type Lang } from '../i18n/ui';
 import { localizedHome } from '../i18n/utils';
+import { blogIndexHref, formatDate, latestPosts, postHref } from '../lib/blog';
+import '../styles/blog.css';
 
 interface Props {
   lang: Lang;
@@ -9,6 +11,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const home = localizedHome(lang);
+const latest = latestPosts(lang, 4);
 
 function p(path: string): string {
   return lang === 'en' ? path : '/fr' + path;
@@ -71,6 +74,26 @@ function p(path: string): string {
         </li>
       </ul>
     </div>
+  </div>
+
+  <div class="container footer-posts">
+    <div class="footer-posts-head">
+      <h3>{t('footer.latestPosts')}</h3>
+      <a href={blogIndexHref(lang)}>{t('footer.allPosts')} <span aria-hidden="true">→</span></a>
+    </div>
+    <ul class="footer-posts-list">
+      {latest.map((post) => (
+        <li>
+          <a href={postHref(post)} class="footer-post" hreflang={post.lang !== lang ? post.lang : undefined}>
+            {post.image && <img src={post.image} alt="" loading="lazy" decoding="async" width="72" height="72" />}
+            <span>
+              <span class="footer-post-title">{post.title}</span>
+              <time datetime={post.date}>{formatDate(post.date, lang)}</time>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 
   <div class="footer-bottom">

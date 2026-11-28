@@ -144,6 +144,8 @@ const { lang, title, description, backHref, skipToContent, closeLabel } = Astro.
   .quiz-field input[type="text"],
   .quiz-field input[type="date"],
   .quiz-field input[type="number"],
+  .quiz-field input[type="email"],
+  .quiz-field input[type="tel"],
   .quiz-field select,
   .quiz-field textarea {
     width: 100%;
@@ -161,6 +163,8 @@ const { lang, title, description, backHref, skipToContent, closeLabel } = Astro.
     outline-offset: 1px;
     border-color: var(--blue-500);
   }
+  .quiz-field[hidden] { display: none; }
+  .quiz-row:not(:has(> .quiz-field:not([hidden]))) { display: none; }
   .quiz-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 500px) { .quiz-row { grid-template-columns: 1fr; } }
 
@@ -243,6 +247,16 @@ const { lang, title, description, backHref, skipToContent, closeLabel } = Astro.
   .quiz-done svg { color: #2f8f5b; margin: 0 auto 18px; }
   .quiz-done h2 { margin-bottom: 10px; }
   .quiz-done p { color: var(--gray-600); max-width: 44ch; margin: 0 auto; }
+
+  .quiz-submit-error {
+    margin: 18px 0 0;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #fdecec;
+    color: #a12a2a;
+    font-size: 0.88rem;
+  }
+  .quiz-submit-error[hidden] { display: none; }
 
   .quiz-draft-note {
     max-width: 600px;

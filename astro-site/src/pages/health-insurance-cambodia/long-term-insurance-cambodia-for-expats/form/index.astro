@@ -15,7 +15,6 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
   <!-- Multi-step questionnaire -->
   <section class="quiz-wrap">
     <div class="container">
-      <p class="quiz-draft-note">Draft for internal review — this form does not submit anywhere yet.</p>
 
       <div class="quiz-card">
         <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
@@ -23,19 +22,35 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
 
         <form id="quiz-form">
 
-          <!-- Carried over from the short form on the rest of the site, via
-               URL query params (?firstName=&lastName=&email=&phone=). See
-               the prefill script at the bottom of this page. -->
-          <input type="hidden" name="firstName" id="hidden-firstName" />
-          <input type="hidden" name="lastName" id="hidden-lastName" />
-          <input type="hidden" name="email" id="hidden-email" />
-          <input type="hidden" name="phone" id="hidden-phone" />
 
           <!-- Step 1 — About Yourself -->
           <div class="quiz-step is-active" data-step="1">
             <p class="quiz-greeting" id="quiz-greeting"></p>
             <p class="quiz-step-eyebrow">About yourself</p>
             <h2>A little about you</h2>
+            <!-- Contact details. Pre-filled (and hidden) when they arrive in the
+                 link from the short form (?firstName=&lastName=&email=&phone=);
+                 otherwise the visitor fills them in here. -->
+            <div class="quiz-row">
+              <div class="quiz-field" data-contact="firstName">
+                <label for="contact-firstName">First name</label>
+                <input type="text" id="contact-firstName" name="firstName" autocomplete="given-name" required />
+              </div>
+              <div class="quiz-field" data-contact="lastName">
+                <label for="contact-lastName">Last name</label>
+                <input type="text" id="contact-lastName" name="lastName" autocomplete="family-name" required />
+              </div>
+            </div>
+            <div class="quiz-row">
+              <div class="quiz-field" data-contact="email">
+                <label for="contact-email">Email</label>
+                <input type="email" id="contact-email" name="email" autocomplete="email" required />
+              </div>
+              <div class="quiz-field" data-contact="phone">
+                <label for="contact-phone">Phone (WhatsApp ideally)</label>
+                <input type="tel" id="contact-phone" name="phone" autocomplete="tel" required />
+              </div>
+            </div>
             <div class="quiz-field">
               <label for="q-nationality">Country of nationality</label>
               <select id="q-nationality" name="nationality">
@@ -73,7 +88,7 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
             </div>
             <div class="quiz-field">
               <label for="q-dob">Date of birth (or age)</label>
-              <input type="text" id="q-dob" name="dob" placeholder="e.g. 14/06/1985 or 40" />
+              <input type="text" id="q-dob" name="dob" required placeholder="e.g. 14/06/1985 or 40" />
             </div>
           </div>
 
@@ -196,10 +211,12 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
           <div class="quiz-step" data-step="done">
             <div class="quiz-done">
               <svg width="52" height="52" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"></circle><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-              <h2>Thanks — that's everything!</h2>
-              <p>A broker will review your answers and get back to you within 24 hours with tailored options. (Draft note: this is a preview — no data was actually sent.)</p>
+              <h2>Thanks, that's everything!</h2>
+              <p>A broker will review your answers and get back to you within 24 hours with tailored options.</p>
             </div>
           </div>
+
+          <p class="quiz-submit-error" id="quiz-submit-error" role="alert" hidden>Sorry, we couldn't send your answers. Please check your connection and try again.</p>
 
           <div class="quiz-nav" id="quiz-nav">
             <button type="button" class="btn btn-outline-dark" id="quiz-back">Back</button>
@@ -215,6 +232,8 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
 </QuizLayout>
 
 <script>
+  import { submitHealthForm } from '../../../../scripts/health-form-submit.js';
+
   (function () {
     var steps = Array.prototype.slice.call(document.querySelectorAll('.quiz-step'));
     var totalSteps = steps.length - 1; // exclude the "done" step from the count
@@ -242,7 +261,42 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
       document.querySelector('.quiz-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    var form = document.getElementById('quiz-form');
+    var submitError = document.getElementById('quiz-submit-error');
+    var submitting = false;
+
     nextBtn.addEventListener('click', function () {
+      if (submitting) return;
+      // Check the required fields of the step being left.
+      var invalid = Array.prototype.find.call(
+        steps[currentIndex].querySelectorAll('input, select, textarea'),
+        function (el) { return !el.checkValidity(); }
+      );
+      if (invalid) {
+        var wrapper = invalid.closest('[data-contact]');
+        if (wrapper) wrapper.hidden = false; // e.g. a malformed email from the link
+        invalid.reportValidity();
+        return;
+      }
+      // Last question: send the answers to n8n, then show the thank-you step.
+      if (currentIndex === totalSteps - 1) {
+        submitting = true;
+        submitError.hidden = true;
+        var nextLabel = nextBtn.textContent;
+        nextBtn.disabled = true;
+        nextBtn.textContent = 'Sending…';
+        submitHealthForm(form, 'en').then(function () {
+          currentIndex++;
+          renderStep();
+        }).catch(function () {
+          submitError.hidden = false;
+          nextBtn.textContent = nextLabel;
+        }).finally(function () {
+          submitting = false;
+          nextBtn.disabled = false;
+        });
+        return;
+      }
       if (currentIndex < steps.length - 1) {
         currentIndex++;
         renderStep();
@@ -351,11 +405,13 @@ const backHref = '/health-insurance-cambodia/long-term-insurance-cambodia-for-ex
     // doesn't have to retype what they already gave us.
     var params = new URLSearchParams(window.location.search);
     ['firstName', 'lastName', 'email', 'phone'].forEach(function (key) {
-      var value = params.get(key);
-      if (value) {
-        var hidden = document.getElementById('hidden-' + key);
-        if (hidden) hidden.value = value;
-      }
+      var value = (params.get(key) || '').trim();
+      if (!value) return;
+      var input = document.getElementById('contact-' + key);
+      if (!input) return;
+      input.value = value;
+      // Already known: no need to ask again.
+      input.closest('[data-contact]').hidden = true;
     });
     var firstName = params.get('firstName');
     if (firstName) {
